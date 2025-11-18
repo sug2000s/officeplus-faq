@@ -1,25 +1,27 @@
 # FastAPI and Web Framework
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-python-multipart==0.0.20
+fastapi
+uvicorn[standard]
+python-multipart
 
 # Database - PostgreSQL
-asyncpg==0.30.0
-SQLAlchemy==2.0.36
-alembic==1.14.0
-greenlet==3.1.1
+asyncpg
+psycopg2-binary
+SQLAlchemy
+alembic
+greenlet
 
 # Redis
-redis==5.2.1
+redis
 
 # Utilities
-python-dotenv==1.0.1
-pydantic==2.10.3
-pydantic-settings==2.6.1
+python-dotenv
+pydantic
+pydantic-settings
+pandas
 
 # HTTP Client
-httpx==0.28.1
-aiohttp==3.11.10
+httpx
+aiohttp
 
 # Logging and Monitoring
-python-json-logger==3.2.1
+python-json-logger
