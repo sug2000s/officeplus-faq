@@ -1,0 +1,67 @@
+:root {
+  /* Primary Colors */
+  --color-primary: #108294;
+  --color-primary-hover: #0d6b7a;
+
+  /* Accent Colors */
+  --color-accent-cyan: #26B9D1;
+  --color-accent-purple: #A669F0;
+
+  /* Text Colors */
+  --color-text-primary: #383838;
+  --color-text-secondary: #8F8F8F;
+  --color-text-dark: #1F1F1F;
+  --color-text-light: #C4C4C4;
+
+  /* Background Colors */
+  --color-bg-white: #fff;
+  --color-bg-gray: #F5F5F5;
+  --color-bg-light: #fafafa;
+
+  /* Border Colors */
+  --color-border: #c4c4c4;
+  --color-border-dark: #B9BCBB;
+  --color-border-light: #e8e8e8;
+
+  /* Status Colors */
+  --color-error: #e0205c;
+  --color-error-light: #F7504F;
+  --color-success: #34BC6F;
+  --color-warning: #FFB941;
+
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 30px;
+
+  /* Border Radius */
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 10px;
+
+  /* Font Families */
+  --font-bold: "SpoqaHanSansNeoBold";
+  --font-medium: "SpoqaHanSansNeoMedium";
+  --font-regular: "SpoqaHanSansNeoRegular";
+  --font-light: "SpoqaHanSansNeoLight";
+
+  /* Font Sizes */
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+
+  /* Input Heights */
+  --input-height: 42px;
+  --input-height-sm: 36px;
+
+  /* Shadows */
+  --shadow-sm: 0 0 1px 0 rgba(9, 30, 66, 0.31), 0 2px 4px 0 rgba(9, 30, 66, 0.15);
+  --shadow-md: 0 0 1px 0 rgba(9, 30, 66, 0.31), 0 8px 12px 0 rgba(9, 30, 66, 0.15);
+  --shadow-lg: 0 7px 15px rgba(9,30,66,.2);
+}
