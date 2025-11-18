@@ -4,34 +4,34 @@
   font-family: "SpoqaHanSansNeoBold";
   font-display: swap;
   src: local('Spoqa Han Sans Neo Bold'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2) format('woff2'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff) format('woff'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf) format('truetype');
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2) format('woff2'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff) format('woff'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf) format('truetype');
 }
 
 @font-face {
   font-family: "SpoqaHanSansNeoMedium";
   font-display: swap;
   src: local('Spoqa Han Sans Neo Medium'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff2) format('woff2'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff) format('woff'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf) format('truetype');
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff2) format('woff2'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff) format('woff'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.ttf) format('truetype');
 }
 
 @font-face {
   font-family: "SpoqaHanSansNeoRegular";
   font-display: swap;
   src: local('Spoqa Han Sans Neo Regular'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2) format('woff2'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff) format('woff'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf) format('truetype');
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2) format('woff2'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff) format('woff'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf) format('truetype');
 }
 
 @font-face {
   font-family: "SpoqaHanSansNeoLight";
   font-display: swap;
   src: local('Spoqa Han Sans Neo Light'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff2) format('woff2'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff) format('woff'),
-  url(/workflow/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.ttf) format('truetype');
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff2) format('woff2'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff) format('woff'),
+  url(/p/faq/front/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.ttf) format('truetype');
 }
