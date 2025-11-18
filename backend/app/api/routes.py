@@ -2,18 +2,28 @@
 from datetime import datetime
 import json
 import os
+import uuid
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from sqlalchemy import text
+from sqlalchemy import text, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
+from sqlalchemy.future import select
 
 from app.models.user import UserModel
+from app.models.database import Tag, Intent, QuestionVariant, IntentTag
 from app.core.redis import redis_connection_pool as redis_pool
 from app.utils.auth import is_valid
 from app.utils.middleware import get_user_info_from_request
 from app.config import settings
 from app.db.session import get_db
+from app.api.schemas import (
+    TagCreate, TagUpdate, TagResponse,
+    IntentCreate, IntentUpdate, IntentListResponse, IntentDetailResponse,
+    QuestionVariantCreate, QuestionVariantResponse,
+    PaginatedResponse,
+)
 
 router = APIRouter(tags=["API"])
 
@@ -207,3 +217,391 @@ def serialize_user(user: UserModel) -> Dict[str, Any]:
 def normalize_session_key(session_key: str) -> str:
     """Ensure the session key uses the AX prefix expected by Redis."""
     return session_key if session_key.startswith("AX:") else f"AX:{session_key}"
+
+
+# ==================== Tag CRUD Endpoints ====================
+
+@router.get("/tags", response_model=List[TagResponse])
+async def list_tags(
+    is_active: Optional[bool] = Query(None, description="Filter by active status"),
+    db: AsyncSession = Depends(get_db),
+) -> List[Tag]:
+    """List all tags."""
+    query = select(Tag).order_by(Tag.display_order, Tag.name)
+    if is_active is not None:
+        query = query.where(Tag.is_active == is_active)
+
+    result = await db.execute(query)
+    return result.scalars().all()
+
+
+@router.get("/tags/{tag_id}", response_model=TagResponse)
+async def get_tag(
+    tag_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> Tag:
+    """Get a single tag by ID."""
+    result = await db.execute(select(Tag).where(Tag.id == tag_id))
+    tag = result.scalar_one_or_none()
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    return tag
+
+
+@router.post("/tags", response_model=TagResponse, status_code=201)
+async def create_tag(
+    tag_data: TagCreate,
+    db: AsyncSession = Depends(get_db),
+) -> Tag:
+    """Create a new tag."""
+    # Check for duplicate name
+    existing = await db.execute(select(Tag).where(Tag.name == tag_data.name))
+    if existing.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="Tag name already exists")
+
+    tag = Tag(**tag_data.model_dump())
+    db.add(tag)
+    await db.commit()
+    await db.refresh(tag)
+    return tag
+
+
+@router.put("/tags/{tag_id}", response_model=TagResponse)
+async def update_tag(
+    tag_id: int,
+    tag_data: TagUpdate,
+    db: AsyncSession = Depends(get_db),
+) -> Tag:
+    """Update a tag."""
+    result = await db.execute(select(Tag).where(Tag.id == tag_id))
+    tag = result.scalar_one_or_none()
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+
+    # Check for duplicate name if updating
+    if tag_data.name and tag_data.name != tag.name:
+        existing = await db.execute(select(Tag).where(Tag.name == tag_data.name))
+        if existing.scalar_one_or_none():
+            raise HTTPException(status_code=400, detail="Tag name already exists")
+
+    update_data = tag_data.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(tag, key, value)
+
+    await db.commit()
+    await db.refresh(tag)
+    return tag
+
+
+@router.delete("/tags/{tag_id}")
+async def delete_tag(
+    tag_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Delete a tag."""
+    result = await db.execute(select(Tag).where(Tag.id == tag_id))
+    tag = result.scalar_one_or_none()
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+
+    await db.delete(tag)
+    await db.commit()
+    return {"success": True, "message": f"Tag {tag_id} deleted"}
+
+
+# ==================== Intent (FAQ) CRUD Endpoints ====================
+
+@router.get("/intents", response_model=PaginatedResponse)
+async def list_intents(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    search: Optional[str] = Query(None, description="Search in question and answer"),
+    tag_id: Optional[int] = Query(None, description="Filter by tag ID"),
+    is_active: Optional[bool] = Query(None, description="Filter by active status"),
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """List intents with pagination and filtering."""
+    # Base query with eager loading
+    query = select(Intent).options(selectinload(Intent.tags))
+    count_query = select(func.count(Intent.id))
+
+    # Apply filters
+    if search:
+        search_pattern = f"%{search}%"
+        query = query.where(
+            or_(
+                Intent.display_question.ilike(search_pattern),
+                Intent.answer.ilike(search_pattern),
+                Intent.intent_name.ilike(search_pattern),
+            )
+        )
+        count_query = count_query.where(
+            or_(
+                Intent.display_question.ilike(search_pattern),
+                Intent.answer.ilike(search_pattern),
+                Intent.intent_name.ilike(search_pattern),
+            )
+        )
+
+    if tag_id:
+        query = query.join(IntentTag).where(IntentTag.tag_id == tag_id)
+        count_query = count_query.join(IntentTag).where(IntentTag.tag_id == tag_id)
+
+    if is_active is not None:
+        query = query.where(Intent.is_active == is_active)
+        count_query = count_query.where(Intent.is_active == is_active)
+
+    # Get total count
+    total_result = await db.execute(count_query)
+    total = total_result.scalar()
+
+    # Apply pagination
+    offset = (page - 1) * page_size
+    query = query.order_by(Intent.updated_at.desc()).offset(offset).limit(page_size)
+
+    result = await db.execute(query)
+    items = result.scalars().unique().all()
+
+    return {
+        "items": [IntentListResponse.model_validate(item) for item in items],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": (total + page_size - 1) // page_size if total > 0 else 1,
+    }
+
+
+@router.get("/intents/{intent_id}", response_model=IntentDetailResponse)
+async def get_intent(
+    intent_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> Intent:
+    """Get a single intent with all related data."""
+    result = await db.execute(
+        select(Intent)
+        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
+        .where(Intent.id == intent_id)
+    )
+    intent = result.scalar_one_or_none()
+    if not intent:
+        raise HTTPException(status_code=404, detail="Intent not found")
+    return intent
+
+
+@router.post("/intents", response_model=IntentDetailResponse, status_code=201)
+async def create_intent(
+    intent_data: IntentCreate,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+) -> Intent:
+    """Create a new intent."""
+    # Check for duplicate intent_id
+    existing = await db.execute(select(Intent).where(Intent.intent_id == intent_data.intent_id))
+    if existing.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="Intent ID already exists")
+
+    # Get user info
+    user_info = get_user_info_from_request(request)
+    user_id = getattr(user_info, "emp_no", None) if user_info else None
+
+    # Create intent
+    intent_dict = intent_data.model_dump(exclude={"tag_ids", "question_variants"})
+    intent_dict["created_by"] = user_id
+    intent_dict["updated_by"] = user_id
+
+    intent = Intent(**intent_dict)
+    db.add(intent)
+    await db.flush()
+
+    # Add tags
+    if intent_data.tag_ids:
+        for tag_id in intent_data.tag_ids:
+            tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
+            if tag_result.scalar_one_or_none():
+                intent_tag = IntentTag(intent_id=intent.id, tag_id=tag_id)
+                db.add(intent_tag)
+
+    # Add question variants
+    if intent_data.question_variants:
+        for variant in intent_data.question_variants:
+            qv = QuestionVariant(intent_id=intent.id, **variant.model_dump())
+            db.add(qv)
+        intent.question_count = len(intent_data.question_variants)
+
+    await db.commit()
+
+    # Reload with relationships
+    result = await db.execute(
+        select(Intent)
+        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
+        .where(Intent.id == intent.id)
+    )
+    return result.scalar_one()
+
+
+@router.put("/intents/{intent_id}", response_model=IntentDetailResponse)
+async def update_intent(
+    intent_id: int,
+    intent_data: IntentUpdate,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+) -> Intent:
+    """Update an intent."""
+    result = await db.execute(
+        select(Intent)
+        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
+        .where(Intent.id == intent_id)
+    )
+    intent = result.scalar_one_or_none()
+    if not intent:
+        raise HTTPException(status_code=404, detail="Intent not found")
+
+    # Get user info
+    user_info = get_user_info_from_request(request)
+    user_id = getattr(user_info, "emp_no", None) if user_info else None
+
+    # Update basic fields
+    update_data = intent_data.model_dump(exclude_unset=True, exclude={"tag_ids"})
+    for key, value in update_data.items():
+        setattr(intent, key, value)
+    intent.updated_by = user_id
+
+    # Update tags if provided
+    if intent_data.tag_ids is not None:
+        # Remove existing tags
+        await db.execute(
+            text("DELETE FROM intent_tags WHERE intent_id = :intent_id"),
+            {"intent_id": intent_id}
+        )
+        # Add new tags
+        for tag_id in intent_data.tag_ids:
+            tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
+            if tag_result.scalar_one_or_none():
+                intent_tag = IntentTag(intent_id=intent.id, tag_id=tag_id)
+                db.add(intent_tag)
+
+    await db.commit()
+
+    # Reload with relationships
+    result = await db.execute(
+        select(Intent)
+        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
+        .where(Intent.id == intent_id)
+    )
+    return result.scalar_one()
+
+
+@router.delete("/intents/{intent_id}")
+async def delete_intent(
+    intent_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Delete an intent."""
+    result = await db.execute(select(Intent).where(Intent.id == intent_id))
+    intent = result.scalar_one_or_none()
+    if not intent:
+        raise HTTPException(status_code=404, detail="Intent not found")
+
+    await db.delete(intent)
+    await db.commit()
+    return {"success": True, "message": f"Intent {intent_id} deleted"}
+
+
+# ==================== Question Variant Endpoints ====================
+
+@router.get("/intents/{intent_id}/variants", response_model=List[QuestionVariantResponse])
+async def list_variants(
+    intent_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> List[QuestionVariant]:
+    """List all question variants for an intent."""
+    # Check intent exists
+    intent_result = await db.execute(select(Intent).where(Intent.id == intent_id))
+    if not intent_result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="Intent not found")
+
+    result = await db.execute(
+        select(QuestionVariant)
+        .where(QuestionVariant.intent_id == intent_id)
+        .order_by(QuestionVariant.is_representative.desc(), QuestionVariant.created_at)
+    )
+    return result.scalars().all()
+
+
+@router.post("/intents/{intent_id}/variants", response_model=QuestionVariantResponse, status_code=201)
+async def create_variant(
+    intent_id: int,
+    variant_data: QuestionVariantCreate,
+    db: AsyncSession = Depends(get_db),
+) -> QuestionVariant:
+    """Add a question variant to an intent."""
+    # Check intent exists
+    intent_result = await db.execute(select(Intent).where(Intent.id == intent_id))
+    intent = intent_result.scalar_one_or_none()
+    if not intent:
+        raise HTTPException(status_code=404, detail="Intent not found")
+
+    variant = QuestionVariant(intent_id=intent_id, **variant_data.model_dump())
+    db.add(variant)
+
+    # Update question count
+    intent.question_count += 1
+
+    await db.commit()
+    await db.refresh(variant)
+    return variant
+
+
+@router.delete("/variants/{variant_id}")
+async def delete_variant(
+    variant_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Delete a question variant."""
+    result = await db.execute(select(QuestionVariant).where(QuestionVariant.id == variant_id))
+    variant = result.scalar_one_or_none()
+    if not variant:
+        raise HTTPException(status_code=404, detail="Variant not found")
+
+    # Update question count
+    intent_result = await db.execute(select(Intent).where(Intent.id == variant.intent_id))
+    intent = intent_result.scalar_one_or_none()
+    if intent:
+        intent.question_count = max(0, intent.question_count - 1)
+
+    await db.delete(variant)
+    await db.commit()
+    return {"success": True, "message": f"Variant {variant_id} deleted"}
+
+
+# ==================== Statistics Endpoints ====================
+
+@router.get("/stats/overview")
+async def get_stats_overview(
+    db: AsyncSession = Depends(get_db),
+) -> Dict[str, Any]:
+    """Get overview statistics for the dashboard."""
+    # Count intents
+    intent_count = await db.execute(select(func.count(Intent.id)))
+    total_intents = intent_count.scalar()
+
+    # Count active intents
+    active_intent_count = await db.execute(
+        select(func.count(Intent.id)).where(Intent.is_active == True)
+    )
+    active_intents = active_intent_count.scalar()
+
+    # Count tags
+    tag_count = await db.execute(select(func.count(Tag.id)))
+    total_tags = tag_count.scalar()
+
+    # Count variants
+    variant_count = await db.execute(select(func.count(QuestionVariant.id)))
+    total_variants = variant_count.scalar()
+
+    return {
+        "total_intents": total_intents,
+        "active_intents": active_intents,
+        "total_tags": total_tags,
+        "total_variants": total_variants,
+    }
