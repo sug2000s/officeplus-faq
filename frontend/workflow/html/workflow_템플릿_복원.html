@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>OfficePlus5</title>
+<link rel="stylesheet" href="../css/import.css">
+</head>
+<body>
+<div class="workflow-wrap">
+  <div class="workflow-regist"> 
+    <div class="header templete">
+      <div class="top">
+        <a href="#a" class="prev"><div class="blind">이전</div></a>
+      </div>
+      <div class="bottom">
+        <div class="title">사내 온라인 교육과정 개발</div>
+        <div class="add-block">
+          <span>2023.06.01 15:25:12</span><span>한우주 팀장</span>
+        </div>
+        <div class="cont">
+          사내 온라인 교육 실시를 위한 참가자 안내, 교보재 준비, 실시 품의하는 프로세스<br>
+          강좌를 개설하기 전에 어떤 주제에 대한 강좌를 개설할 것인지, 그리고 강좌의 목표와 수강생 대상 등을 결정함
+        </div>
+        <a href="#a" class="btn-restore"><i></i><span>복원하기</span></a>
+      </div>
+    </div>
+    <div class="regist-detail templete"> <!-- class : templete 추가 -->
+      <h2 class="title-step">Step 1 <span class="btn-expand"></span></h2>
+      <ul class="drag-list">
+        <li>
+          <div class="editable">
+            <div class="title deleted-area">교재개발</div> <!-- 삭제된 영역 bg : deleted-area -->
+            <div class="cont deleted-area">필수과정이며 개요 작성후 선 공유 필요</div> <!-- 삭제된 영역 bg : deleted-area -->
+          </div>
+        </li>
+        <li>
+          <div class="editable">
+            <div class="title">평가도구 개발</div>
+            <div class="cont">시험 또는 산출물 제작중 선택</div>
+          </div>
+          <div class="sub-info">
+            <div class="item added-area"> <!-- 추가/수정된 영역 bg : added-area -->
+              <a href="#a" class="link bg2">
+                <i class="ic-attach"></i>              
+                <span class="name">교재 샘플 및 템플릿.pptx</span>
+              </a>
+            </div>
+            <div class="item">
+              <a href="#a" class="link">
+                <i class="ic-calendar"></i>              
+                <span class="name">2023.08.08</span>
+                <span>까지</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="editable">
+            <div class="title deleted-area">Lesson Plan 작성</div>
+            <div class="cont deleted-area">상세 계획 및 일정 수립</div>
+          </div>
+          <div class="sub-info">
+            <div class="item">
+              <a href="#a" class="link">
+                <i class="ic-user"></i>              
+                <span class="name">최지예 선임</span>
+                <span>경험디자인2팀</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="editable">
+            <div class="title added-area">연구강의/리허설 강의</div>
+            <div class="cont">강의를 처음하는 사내강사인 경우 실시함</div>
+          </div>
+        </li>
+      </ul>
+
+      <h2 class="title-step">Step 2 <span class="btn-expand"></span></h2>
+      <ul class="drag-list">
+        <li>
+          <div class="editable">
+            <div class="title">과정홍보/운영계획 수립</div>
+          </div>
+        </li>
+        <li>
+          <div class="editable">
+            <div class="title">개발산출물 수정/보완</div>
+            <div class="cont">필수 과정이며 개요 작성 후 선 공유 필요</div>
+          </div>
+          <div class="sub-info">
+            <div class="item">
+              <a href="#a" class="link bg2">
+                <i class="ic-link"></i>              
+                <span class="name">www.naver.com</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="editable">
+            <div class="title">과정개발 완료보고서 작성</div>
+            <div class="cont">필수 과정이며 개요 작성 후 선 공유 필요</div>
+          </div>
+        </li>
+      </ul>
+      <div class="edit">
+        <div class="editable">
+          <div class="edit-placeholder">Activity 제목을 입력하세요.</div>
+          <div class="edit-title" contenteditable="true"></div>
+        </div>
+        <div class="editable type2">
+          <div class="edit-placeholder">메모(선택)</div>
+          <div class="edit-title" contenteditable="true"></div>
+        </div>
+      </div>
+      <!-- step 추가 -->
+      <div class="more-step">
+        <a href="#a" class="btn-more"><span class="blind">more</span></a>
+        <a href="#a" class="add-step"><i class="step"></i><span>STEP 추가</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script>
+// more layer
+$('.more-wrap .more').click(function (e) { 
+  $(this).toggleClass('active');
+  e.stopPropagation();
+});
+$('.more-layer').click(function(e) {
+  e.stopPropagation();
+});
+$(document).on('click', function() {
+  $('.more-wrap .more').removeClass('active');
+});
+
+// 사용자가 edit-title 내에 텍스트를 입력하면, edit-placeholder가 사라지도록 함
+$('.edit-title').on('input', function() {
+  var $this = $(this);
+  var $placeholder = $this.prev('.edit-placeholder');
+  
+  if ($this.text().trim() === '') {
+    $placeholder.show();
+  } else {
+    $placeholder.hide();
+  }
+});
+// 디폴트로 edit-title 내에 텍스트가 있으면, edit-placeholder가 사라지도록 함
+$('.edit-title').each(function() {
+  var $this = $(this);
+  var $placeholder = $this.prev('.edit-placeholder');
+  
+  if ($this.text().trim() === '') {
+    $placeholder.show();
+  } else {
+    $placeholder.hide();
+  }
+});
+
+// 접고 펼치기
+$('.btn-expand').click(function () { 
+  $(this).toggleClass('on');
+  $(this).parent().next('.drag-list').toggleClass('hide');
+});
+</script>
+</body>
+</html>

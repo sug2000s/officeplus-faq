@@ -1,0 +1,3153 @@
+html,
+body {
+    background: #fff;
+    -webkit-text-size-adjust: none
+}
+
+body {
+    font-family: "SpoqaHanSansNeoRegular";
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000;
+    overflow: hidden
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-text-size-adjust: 100%
+}
+
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: normal
+}
+
+ul,
+ol,
+dl,
+dd,
+p {
+    margin: 0;
+    padding: 0;
+    font-weight: normal
+}
+
+li {
+    list-style: none
+}
+
+a,
+a:visited,
+a:focus,
+a:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer
+}
+
+a:hover {
+    text-decoration: none
+}
+
+var,
+em {
+    font-style: normal
+}
+
+b,
+strong,
+.strong {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-weight: normal
+}
+
+img {
+    border: 0;
+    vertical-align: middle
+}
+
+label {
+    max-width: inherit;
+    margin: 0;
+    font-weight: normal
+}
+
+.blind {
+    position: absolute;
+    left: -10000px;
+    top: -10000px;
+    width: 0;
+    height: 0;
+    font-size: 0
+}
+
+.wrap {
+    position: relative;
+    min-height: 100vh
+}
+
+.inner {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 20px
+}
+
+.bg-dimmed {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 100
+}
+
+.valign-top {
+    vertical-align: top !important
+}
+
+.valign-middle {
+    vertical-align: middle !important
+}
+
+.align-left {
+    text-align: left !important
+}
+
+.align-center {
+    text-align: center !important
+}
+
+.align-right {
+    text-align: right !important
+}
+
+.dp-block {
+    display: block !important
+}
+
+.dp-inlineblock {
+    display: inline-block !important
+}
+
+.pc-only {
+    display: block !important
+}
+
+.mobile-only {
+    display: none !important
+}
+
+input[type="text"],
+input[type="search"] {
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    font-family: "SpoqaHanSansNeoRegular";
+    font-size: 16px;
+    color: #383838;
+    background: #fff;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    outline: none
+}
+
+input[type="text"]:hover,
+input[type="search"]:hover {
+    border: 1px solid #5b5c5b
+}
+
+input[type="search"] {
+    padding: 0 46px 0 10px
+}
+
+input::-webkit-search-cancel-button {
+    display: none
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    background: transparent
+}
+
+::-webkit-scrollbar-track {
+    background: none
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d1d2d3;
+    border-radius: 3px
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c1c2c3
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #b1b2b3
+}
+
+::placeholder {
+    color: #8f8f8f;
+    font-weight: normal;
+    letter-spacing: -0.2px
+}
+
+input:-webkit-autofill {
+    -webkit-text-fill-color: #344563;
+    box-shadow: 0 0 0 100px #fff inset
+}
+
+input::-webkit-search-decoration,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+    display: none
+}
+
+input::-webkit-search-cancel-button {
+    width: 30px;
+    height: 30px;
+    background: url(../images/common/btn_search_delete.png) no-repeat center;
+    background-size: 100%;
+    border: none;
+    -webkit-appearance: none;
+    cursor: pointer
+}
+
+button {
+    border: none;
+    cursor: pointer
+}
+
+.skeleton-loading {
+    overflow-x: hidden !important
+}
+
+.skeleton-loading .workflow-main .title-area h3,
+.skeleton-loading .workflow-main .title-area h3 span,
+.skeleton-loading .workflow-main .title-area .btn-next,
+.skeleton-loading .my-workflow .workflow-item,
+.skeleton-loading .workflow-main .workflow-list>li>a,
+.skeleton-loading .workflow-main .title-area>div .btn-switch,
+.skeleton-loading .workflow-regist .title,
+.skeleton-loading .workflow-regist .add-block,
+.skeleton-loading .workflow-regist .cont,
+.skeleton-loading .workflow-regist .btn-restore,
+.skeleton-loading .workflow-regist .edit-title,
+.skeleton-loading .workflow-regist .header .bottom .add-block *,
+.skeleton-loading .workflow-regist h2.title-step,
+.skeleton-loading .workflow-regist a.link,
+.skeleton-loading .workflow-regist .btn-more,
+.skeleton-loading .workflow-regist .checkbox-circle,
+.skeleton-loading .workflow-regist .item a,
+.skeleton-loading .workflow-regist .more-wrap .more {
+    flex: none !important;
+    min-width: 25px;
+    max-width: 100% !important;
+    color: #E8E8E8 !important;
+    border-radius: 10px !important;
+    background: #E8E8E8 !important;
+    box-shadow: none !important;
+    border: none !important
+}
+
+.skeleton-loading .workflow-main .title-area h3 *:before,
+.skeleton-loading .workflow-main .title-area h3 *:after,
+.skeleton-loading .workflow-main .title-area h3 *,
+.skeleton-loading .workflow-main .title-area h3 span *:before,
+.skeleton-loading .workflow-main .title-area h3 span *:after,
+.skeleton-loading .workflow-main .title-area h3 span *,
+.skeleton-loading .workflow-main .title-area .btn-next *:before,
+.skeleton-loading .workflow-main .title-area .btn-next *:after,
+.skeleton-loading .workflow-main .title-area .btn-next *,
+.skeleton-loading .my-workflow .workflow-item *:before,
+.skeleton-loading .my-workflow .workflow-item *:after,
+.skeleton-loading .my-workflow .workflow-item *,
+.skeleton-loading .workflow-main .workflow-list>li>a *:before,
+.skeleton-loading .workflow-main .workflow-list>li>a *:after,
+.skeleton-loading .workflow-main .workflow-list>li>a *,
+.skeleton-loading .workflow-main .title-area>div .btn-switch *:before,
+.skeleton-loading .workflow-main .title-area>div .btn-switch *:after,
+.skeleton-loading .workflow-main .title-area>div .btn-switch *,
+.skeleton-loading .workflow-regist .title *:before,
+.skeleton-loading .workflow-regist .title *:after,
+.skeleton-loading .workflow-regist .title *,
+.skeleton-loading .workflow-regist .add-block *:before,
+.skeleton-loading .workflow-regist .add-block *:after,
+.skeleton-loading .workflow-regist .add-block *,
+.skeleton-loading .workflow-regist .cont *:before,
+.skeleton-loading .workflow-regist .cont *:after,
+.skeleton-loading .workflow-regist .cont *,
+.skeleton-loading .workflow-regist .btn-restore *:before,
+.skeleton-loading .workflow-regist .btn-restore *:after,
+.skeleton-loading .workflow-regist .btn-restore *,
+.skeleton-loading .workflow-regist .edit-title *:before,
+.skeleton-loading .workflow-regist .edit-title *:after,
+.skeleton-loading .workflow-regist .edit-title *,
+.skeleton-loading .workflow-regist .header .bottom .add-block * *:before,
+.skeleton-loading .workflow-regist .header .bottom .add-block * *:after,
+.skeleton-loading .workflow-regist .header .bottom .add-block * *,
+.skeleton-loading .workflow-regist h2.title-step *:before,
+.skeleton-loading .workflow-regist h2.title-step *:after,
+.skeleton-loading .workflow-regist h2.title-step *,
+.skeleton-loading .workflow-regist a.link *:before,
+.skeleton-loading .workflow-regist a.link *:after,
+.skeleton-loading .workflow-regist a.link *,
+.skeleton-loading .workflow-regist .btn-more *:before,
+.skeleton-loading .workflow-regist .btn-more *:after,
+.skeleton-loading .workflow-regist .btn-more *,
+.skeleton-loading .workflow-regist .checkbox-circle *:before,
+.skeleton-loading .workflow-regist .checkbox-circle *:after,
+.skeleton-loading .workflow-regist .checkbox-circle *,
+.skeleton-loading .workflow-regist .item a *:before,
+.skeleton-loading .workflow-regist .item a *:after,
+.skeleton-loading .workflow-regist .item a *,
+.skeleton-loading .workflow-regist .more-wrap .more *:before,
+.skeleton-loading .workflow-regist .more-wrap .more *:after,
+.skeleton-loading .workflow-regist .more-wrap .more * {
+    color: #E8E8E8 !important;
+    background: none !important
+}
+
+.skeleton-loading .workflow-main .title-area h3 img,
+.skeleton-loading .workflow-main .title-area h3 span img,
+.skeleton-loading .workflow-main .title-area .btn-next img,
+.skeleton-loading .my-workflow .workflow-item img,
+.skeleton-loading .workflow-main .workflow-list>li>a img,
+.skeleton-loading .workflow-main .title-area>div .btn-switch img,
+.skeleton-loading .workflow-regist .title img,
+.skeleton-loading .workflow-regist .add-block img,
+.skeleton-loading .workflow-regist .cont img,
+.skeleton-loading .workflow-regist .btn-restore img,
+.skeleton-loading .workflow-regist .edit-title img,
+.skeleton-loading .workflow-regist .header .bottom .add-block * img,
+.skeleton-loading .workflow-regist h2.title-step img,
+.skeleton-loading .workflow-regist a.link img,
+.skeleton-loading .workflow-regist .btn-more img,
+.skeleton-loading .workflow-regist .checkbox-circle img,
+.skeleton-loading .workflow-regist .item a img,
+.skeleton-loading .workflow-regist .more-wrap .more img {
+    display: none
+}
+
+.skeleton-loading .workflow-main .title-area>div .btn-switch .txt {
+    display: none
+}
+
+.skeleton-loading .workflow-regist .added-area.item,
+.skeleton-loading .workflow-regist .drag-list>li,
+.skeleton-loading .workflow-regist .edit {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: none !important
+}
+
+.skeleton-loading .workflow-regist .regist-detail.templete .drag-list>li .editable .title,
+.skeleton-loading .workflow-regist .regist-detail.templete .drag-list>li .editable .cont,
+.skeleton-loading .workflow-regist .regist-detail .drag-list>li .added-area {
+    margin: 5px 0 !important
+}
+
+.skeleton-loading .workflow-regist .regist-detail .drag-list+h2.title-step:before {
+    min-width: 25px;
+    border-radius: 10px !important;
+    background: #E8E8E8 !important
+}
+
+.workflow-wrap {
+    position: relative;
+    height: 100vh;
+    background: #fff;
+    overflow: auto;
+    min-width: 340px
+}
+
+.workflow-wrap .top {
+    display: flex;
+    position: relative;
+    margin: 30px 0;
+    padding: 0px 20px;
+    height: 36px;
+    align-items: center;
+    justify-content: space-between
+}
+
+.workflow-wrap .top h2 {
+    padding-left: 46px;
+    font-size: 24px;
+    font-family: "SpoqaHanSansNeoMedium";
+    color: #383838;
+    background: url(../images/common/ic_workflow.svg) no-repeat
+}
+
+.workflow-wrap .top .btn-add {
+    display: block;
+    height: 30px;
+    color: #26B9D1;
+    line-height: 30px;
+    padding: 0 6px 0 26px;
+    background: url(../images/common/ic_add_circle_2.svg) no-repeat 4px center;
+    border-radius: 4px
+}
+
+.workflow-wrap .top .btn-add:hover {
+    background-color: #eee
+}
+
+.workflow-wrap .top-sub {
+    position: relative;
+    display: flex;
+    align-items: center
+}
+
+.workflow-wrap .top-sub .left {
+    margin-left: -10px;
+    padding: 7px 10px 7px 0;
+    height: 42px
+}
+
+.workflow-wrap .top-sub .left .prev {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_ar_back.svg) no-repeat
+}
+
+.workflow-wrap .top-sub .right {
+    min-width: 50px;
+    text-align: right
+}
+
+.workflow-wrap .top-sub .right .btn-top {
+    display: inline-block;
+    text-align: center;
+    line-height: 42px;
+    min-width: 30px;
+    font-family: "SpoqaHanSansNeoBold";
+    font-size: 16px;
+    color: #108294
+}
+
+.workflow-wrap .top-sub .right .btn-top.disabled {
+    font-family: "SpoqaHanSansNeoMedium";
+    color: #c4c4c4;
+    pointer-events: none
+}
+
+.workflow-wrap .search-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 94px;
+    padding: 0 10px
+}
+
+.workflow-wrap .search-top .left .prev {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_ar_back.svg) no-repeat;
+    border-radius: 5px
+}
+
+.workflow-wrap .search-top .left .prev:hover {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .search-top .mid {
+    flex: 1;
+    height: 42px;
+    margin: 0 10px
+}
+
+.workflow-wrap .search-top .mid h3 {
+    display: block;
+    line-height: 42px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 20px;
+    color: #383838
+}
+
+.workflow-wrap .search-top .right .btn-new {
+    display: block;
+    height: 35px;
+    font-size: 16px;
+    font-family: "SpoqaHanSansNeoMedium";
+    color: #108294;
+    line-height: 35px;
+    padding: 0 11px;
+    border-radius: 5px
+}
+
+.workflow-wrap .search-top .right .btn-new:hover {
+    background: #f5f5f5
+}
+
+.workflow-wrap .search-top form {
+    flex: 1;
+    height: 42px;
+    margin: 0 10px
+}
+
+.workflow-wrap .search-top .search-input {
+    position: relative
+}
+
+.workflow-wrap .search-top .search-input .btn-search {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    width: 38px;
+    height: 38px;
+    background: url(../images/common/ic_search.svg) no-repeat center;
+    background-size: 38px;
+    border: none;
+    cursor: pointer;
+    outline: none
+}
+
+.workflow-wrap .search-top+h3 {
+    margin-top: 22px
+}
+
+.workflow-wrap .search-top+.workflow-main {
+    margin-top: 0
+}
+
+.workflow-wrap .search-top+.title-area {
+    margin-top: 30px
+}
+
+.workflow-wrap .shortBanner {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px;
+    background: rgba(207, 207, 207, 0.2);
+    text-align: left
+}
+
+.workflow-wrap .shortBanner>dl {
+    align-self: stretch
+}
+
+.workflow-wrap .shortBanner>dl>dt {
+    color: #8644E2;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.54px;
+    margin-bottom: 10px;
+    background: url(../images/common/ic_path.svg) no-repeat right top;
+    font-family: SpoqaHanSansNeoMedium
+}
+
+.workflow-wrap .shortBanner>dl>dt~dd {
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    font-size: 12px
+}
+
+.workflow-wrap .shortBanner dd button {
+    margin-top: 10px;
+    text-decoration: underline;
+    font-size: 14px;
+    background: none;
+    font-size: 12px
+}
+
+.workflow-wrap .shortBanner dd img.flow {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px 0
+}
+
+.workflow-wrap .shortBanner .innerDetail dl dt {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+    font-family: "SpoqaHanSansNeoMedium"
+}
+
+.workflow-wrap .shortBanner .innerDetail dl dd {
+    font-size: 12px;
+    line-height: 150%;
+    position: relative;
+    padding-left: 16px;
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    margin-bottom: 5px
+}
+
+.workflow-wrap .shortBanner .innerDetail dl dd::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 4px;
+    width: 3px;
+    height: 3px;
+    background: #383838;
+    border-radius: 50%
+}
+
+.workflow-wrap .shortBanner .innerDetail button {
+    background: none;
+    float: right
+}
+
+.workflow-wrap .workflow-main {
+    margin: 30px 20px;
+    text-align: center
+}
+
+.workflow-wrap .workflow-main .search-top {
+    position: relative;
+    padding: 0;
+    height: auto
+}
+
+.workflow-wrap .workflow-main .search-top form {
+    margin: 0
+}
+
+.workflow-wrap .workflow-main .coming-soon {
+    padding: 16px 20px 20px
+}
+
+.workflow-wrap .workflow-main .coming-soon>img {
+    max-width: 80%;
+    margin-bottom: 28px
+}
+
+.workflow-wrap .workflow-main .coming-soon+p {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 22px;
+    color: #383838;
+    line-height: 1.35
+}
+
+.workflow-wrap .workflow-main .coming-soon+p .point {
+    color: #6172F3
+}
+
+.workflow-wrap .workflow-main .coming-soon+p+.sub {
+    margin-top: 12px;
+    font-family: "SpoqaHanSansNeoRegular";
+    color: #8f8f8f;
+    font-size: 14px
+}
+
+.workflow-wrap .workflow-main .title-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px
+}
+
+.workflow-wrap .workflow-main .title-area h3 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1 0 0;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 20px;
+    line-height: 1.25;
+    color: #383838
+}
+
+.workflow-wrap .workflow-main .title-area h3 .num {
+    color: #8644E2
+}
+
+.workflow-wrap .workflow-main .title-area .btn-next {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 5px;
+    height: 24px;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 3px
+}
+
+.workflow-wrap .workflow-main .title-area .btn-next:hover {
+    background: #f5f5f5
+}
+
+.workflow-wrap .workflow-main .title-area .btn-next>span {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #383838
+}
+
+.workflow-wrap .workflow-main .title-area .btn-next>i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_ar_more.svg) no-repeat
+}
+
+.workflow-wrap .workflow-main .title-area>div {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch {
+    position: relative;
+    display: inline-block;
+    min-width: 32px;
+    height: 18px;
+    cursor: pointer
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch input:checked+.circle {
+    background: #108294 url(../images/common/ic_switch_checked.svg) no-repeat 4px 3px
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch input:checked+.circle:before {
+    background: #108294
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch input:checked+.circle:before,
+.workflow-wrap .workflow-main .title-area>div .btn-switch input:checked+.circle:after {
+    transform: translateX(14px)
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch .txt {
+    position: absolute;
+    top: -4px;
+    right: 31px;
+    padding: 0 12px 0 20px;
+    white-space: nowrap;
+    font-size: 13px;
+    color: #4f4f4f
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch .circle {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    width: 32px;
+    height: 12px;
+    border-radius: 9px;
+    background: #c4c4c4;
+    transition: .3s
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch .circle:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -3px;
+    width: 18px;
+    height: 18px;
+    background: #8f8f8f;
+    transition: .3s;
+    border-radius: 50%
+}
+
+.workflow-wrap .workflow-main .title-area>div .btn-switch .circle:after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    transition: .3s;
+    border-radius: 50%
+}
+
+.workflow-wrap .workflow-main .title-area.type2 {
+    margin: 20px 0 10px
+}
+
+.workflow-wrap .workflow-main .title-area.type2 h3 {
+    font-size: 15px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .workflow-main .title-area.type2 .num {
+    color: #26B9D1
+}
+
+.workflow-wrap .workflow-main p.ins {
+    margin: 20px 0 34px;
+    font-size: 13px;
+    color: #C4C4C4
+}
+
+.workflow-wrap .workflow-main .workflow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.workflow-wrap .workflow-main .workflow-list>li {
+    position: relative
+}
+
+.workflow-wrap .workflow-main .workflow-list>li>a {
+    display: block;
+    position: relative;
+    padding: 12px 20px 12px 50px;
+    height: 70px;
+    text-align: left;
+    border-radius: 10px;
+    background: #F5F5F5;
+    transition: all 0.1s ease
+}
+
+.workflow-wrap .workflow-main .workflow-list>li>a:hover {
+    background: #f1f1f1
+}
+
+.workflow-wrap .workflow-main .workflow-list>li>a i.ic-workflow {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: url(../images/common/ic_workflow_2.svg) no-repeat
+}
+
+.workflow-wrap .workflow-main .workflow-list>li>a .title {
+    height: 19px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #383838;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.workflow-wrap .workflow-main .workflow-list>li>a .date {
+    margin-top: 6px;
+    color: #8F8F8F;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.workflow-wrap .workflow-main .workflow-list>li label.checkbox-circle {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -10px
+}
+
+.workflow-wrap .workflow-main .workflow-list.select-type>li>a {
+    padding-right: 36px
+}
+
+.workflow-wrap .my-workflow {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 33px
+}
+
+.workflow-wrap .my-workflow .workflow-item {
+    position: relative;
+    padding: 14px 15px 13px;
+    min-height: 50px;
+    background: #A669F0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s
+}
+
+.workflow-wrap .my-workflow .workflow-item:hover {
+    box-shadow: 0px -7px 20px 0px rgba(0, 0, 0, 0.06) inset, 0px 0px 2px 0px rgba(0, 0, 0, 0.22), 0px 2px 4px 0px rgba(0, 0, 0, 0.25)
+}
+
+.workflow-wrap .my-workflow .workflow-item.color01 {
+    background: #904FF2
+}
+
+.workflow-wrap .my-workflow .workflow-item.color02 {
+    background: #26B9D1
+}
+
+.workflow-wrap .my-workflow .workflow-item.color03 {
+    background: #FFB941
+}
+
+.workflow-wrap .my-workflow .workflow-item.color04 {
+    background: #34BC6F
+}
+
+.workflow-wrap .my-workflow .workflow-item.color05 {
+    background: #5F22C2
+}
+
+.workflow-wrap .my-workflow .workflow-item.color06 {
+    background: #F7504F
+}
+
+.workflow-wrap .my-workflow .workflow-item.color07 {
+    background: #4B82EF
+}
+
+.workflow-wrap .my-workflow .workflow-item.color08 {
+    background: #FC68D0
+}
+
+.workflow-wrap .my-workflow .workflow-item.color09 {
+    background: #2D3282
+}
+
+.workflow-wrap .my-workflow .workflow-item.color10 {
+    background: #841651
+}
+
+.workflow-wrap .my-workflow .workflow-item.color11 {
+    background: #108294
+}
+
+.workflow-wrap .my-workflow .workflow-item.color12 {
+    background: #8F8F8F
+}
+
+.workflow-wrap .my-workflow .workflow-item.color13 {
+    background: #876800
+}
+
+.workflow-wrap .my-workflow .workflow-item.color14 {
+    background: #9C2A10
+}
+
+.workflow-wrap .my-workflow .workflow-item.color15 {
+    background: #383838
+}
+
+.workflow-wrap .my-workflow .workflow-item.color16 {
+    background: #000000
+}
+
+.workflow-wrap .my-workflow .workflow-item.completed {
+    background: #ADADAD;
+    box-shadow: inset 0 0 50px 50px rgba(255, 255, 255, 0.4)
+}
+
+.workflow-wrap .my-workflow .workflow-item .more-wrap {
+    position: absolute;
+    top: 13px;
+    right: 8px
+}
+
+.workflow-wrap .my-workflow .workflow-item .title {
+    display: block;
+    margin-right: 20px;
+    max-height: 40px;
+    font-size: 16px;
+    line-height: 1.25;
+    text-align: left;
+    color: #fff;
+    overflow: hidden
+}
+
+.workflow-wrap .my-workflow .workflow-item .title.completed {
+    text-decoration-line: line-through
+}
+
+.workflow-wrap .my-workflow .workflow-item .members {
+    display: flex;
+    height: 20px;
+    font-size: 11px;
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    color: rgba(255, 255, 255, 0.7);
+    align-items: center
+}
+
+.workflow-wrap .my-workflow .workflow-item .members i.user {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_user.svg) no-repeat
+}
+
+.workflow-wrap .my-workflow .workflow-item .members i.users {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_users.svg) no-repeat
+}
+
+.workflow-wrap .my-workflow .workflow-item .wf-process {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 23px;
+    gap: 15px
+}
+
+.workflow-wrap .my-workflow .workflow-item .wf-process .process-bar {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden
+}
+
+.workflow-wrap .my-workflow .workflow-item .wf-process .process-bar .ing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    border-radius: 2px;
+    background: #fff
+}
+
+.workflow-wrap .my-workflow .workflow-item .wf-process .status {
+    font-size: 13px;
+    color: #fff;
+    width: 90px;
+    text-align: right;
+    white-space: nowrap
+}
+
+.workflow-wrap .my-workflow .workflow-item .wf-process .status span {
+    margin: 0 7px
+}
+
+.workflow-wrap .my-workflow .workflow-item.default {
+    display: flex;
+    align-items: center
+}
+
+.workflow-wrap .my-workflow .workflow-item.default .title {
+    font-size: 20px;
+    max-height: 50px
+}
+
+.workflow-wrap .my-workflow .workflow-item.default .more-wrap {
+    top: 50%;
+    margin-top: -10px
+}
+
+.workflow-wrap .my-workflow .workflow-item.default+.default {
+    margin-top: 5px
+}
+
+.workflow-wrap .my-workflow .workflow-item label.checkbox-circle {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -10px
+}
+
+.workflow-wrap .my-workflow .workflow-item label.checkbox-circle input[type="checkbox"]+span {
+    background: url(../images/common/ic_checkbox_circle_w.svg) no-repeat
+}
+
+.workflow-wrap .my-workflow .workflow-item label.checkbox-circle input[type="checkbox"]:checked+span {
+    background: url(../images/common/ic_checkbox_circle_w_checked.svg) no-repeat
+}
+
+.workflow-wrap .my-workflow .workflow-item.with-path {
+    padding-left: 35px
+}
+
+.workflow-wrap .my-workflow .workflow-item.with-path .ic-path {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_path_3.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 174px;
+    background: #A669F0;
+    position: sticky;
+    top: 0;
+    z-index: 100
+}
+
+.workflow-wrap .workflow-regist .header.color01 {
+    background: #904FF2
+}
+
+.workflow-wrap .workflow-regist .header.color02 {
+    background: #26B9D1
+}
+
+.workflow-wrap .workflow-regist .header.color03 {
+    background: #FFB941
+}
+
+.workflow-wrap .workflow-regist .header.color04 {
+    background: #34BC6F
+}
+
+.workflow-wrap .workflow-regist .header.color05 {
+    background: #5F22C2
+}
+
+.workflow-wrap .workflow-regist .header.color06 {
+    background: #F7504F
+}
+
+.workflow-wrap .workflow-regist .header.color07 {
+    background: #4B82EF
+}
+
+.workflow-wrap .workflow-regist .header.color08 {
+    background: #FC68D0
+}
+
+.workflow-wrap .workflow-regist .header.color09 {
+    background: #2D3282
+}
+
+.workflow-wrap .workflow-regist .header.color10 {
+    background: #841651
+}
+
+.workflow-wrap .workflow-regist .header.color11 {
+    background: #108294
+}
+
+.workflow-wrap .workflow-regist .header.color12 {
+    background: #8F8F8F
+}
+
+.workflow-wrap .workflow-regist .header.color13 {
+    background: #876800
+}
+
+.workflow-wrap .workflow-regist .header.color14 {
+    background: #9C2A10
+}
+
+.workflow-wrap .workflow-regist .header.color15 {
+    background: #383838
+}
+
+.workflow-wrap .workflow-regist .header.color16 {
+    background: #000000
+}
+
+.workflow-wrap .workflow-regist .header.completed {
+    background: #ADADAD
+}
+
+.workflow-wrap .workflow-regist .header .top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 94px
+}
+
+.workflow-wrap .workflow-regist .header .top .prev {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    margin: 0 10px;
+    background: url(../images/common/ic_ar_back_w.svg) no-repeat center;
+    border-radius: 4px;
+    transition: all 0.3s
+}
+
+.workflow-wrap .workflow-regist .header .top .prev:hover {
+    background-size: 75%;
+    background-color: rgba(20, 20, 20, 0.2)
+}
+
+.workflow-wrap .workflow-regist .header .top>div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 25px
+}
+
+.workflow-wrap .workflow-regist .header .top>div p {
+    display: inline-block;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #fff
+}
+
+.workflow-wrap .workflow-regist .header .top>div .more-wrap {
+    min-width: 28px;
+    min-height: 28px
+}
+
+.workflow-wrap .workflow-regist .header .top>div .more-wrap .more {
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_more_vert_w_2.svg) no-repeat center;
+    border-radius: 4px;
+    transition: all 0.3s
+}
+
+.workflow-wrap .workflow-regist .header .top>div .more-wrap .more:hover,
+.workflow-wrap .workflow-regist .header .top>div .more-wrap .more.active {
+    background-size: 75%;
+    background-color: rgba(20, 20, 20, 0.2)
+}
+
+.workflow-wrap .workflow-regist .header .top>div .more-wrap .more-layer {
+    top: 30px;
+    right: 0
+}
+
+.workflow-wrap .workflow-regist .header .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    align-items: center;
+    padding: 0 20px 20px;
+    width: 100%
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable {
+    position: relative;
+    width: 100%;
+    font-family: Apple SD Gothic Neo, arial, sans-serif
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable .edit-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7)
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable .edit-title {
+    position: relative;
+    width: 100%;
+    min-height: 30px;
+    max-height: 60px;
+    font-size: 20px;
+    color: #fff;
+    text-align: left;
+    outline: none;
+    overflow: hidden;
+    z-index: 10;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable .edit-title:focus {
+    max-height: initial;
+    -webkit-box-orient: initial
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable .edit-title.completed {
+    text-decoration-line: line-through
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable.type2 {
+    font-family: Apple SD Gothic Neo, arial, sans-serif
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable.type2 .edit-placeholder {
+    font-size: 13px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .editable.type2 .edit-title {
+    min-height: 20px;
+    max-height: 80px;
+    font-size: 13px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    width: 100%
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block a {
+    display: flex;
+    align-items: center;
+    gap: 3px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block p {
+    display: flex;
+    align-items: center;
+    gap: 3px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block i.person {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_user.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block i.person-plus {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_person.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block i.ic-people {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_users.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block span {
+    display: block;
+    font-size: 13px;
+    color: #fff
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .btn-invite {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    min-width: 56px;
+    height: 20px;
+    margin: 0 3px 2px;
+    padding: 0 10px 0 3px;
+    font-size: 13px;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .btn-invite i {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/common/ic_add_plus.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related {
+    display: flex;
+    position: relative;
+    margin: 0 5px 2px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li {
+    position: relative;
+    display: inline-block;
+    margin: 0 -2px
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a {
+    position: relative;
+    display: block;
+    outline: none
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per {
+    position: relative;
+    display: block;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per img {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+    object-fit: cover;
+    object-position: 0 15%
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    color: #383838;
+    line-height: 1
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per span.c1 {
+    background: #F5F5F5
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per span.c2 {
+    background: #D2F9FF
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per span.c3 {
+    background: #FBE4E9
+}
+
+.workflow-wrap .workflow-regist .header .bottom .add-block .related>li>a .per span.more {
+    padding: 0 2px;
+    color: #fff;
+    background: #383838
+}
+
+.workflow-wrap .workflow-regist .header.templete {
+    background: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .header.templete.edit {
+    background: #fff
+}
+
+.workflow-wrap .workflow-regist .header.templete .top .prev {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_ar_back.svg) no-repeat;
+    border-radius: 5px
+}
+
+.workflow-wrap .workflow-regist .header.templete .top .prev:hover {
+    background-color: #e9e9e9
+}
+
+.workflow-wrap .workflow-regist .header.templete .top .btn-save {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 14px;
+    color: #26B9D1
+}
+
+.workflow-wrap .workflow-regist .header.templete .top>div .btn-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.workflow-wrap .workflow-regist .header.templete .top>div .btn-icon .btn-edit {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_edit.svg) no-repeat;
+    border-radius: 5px
+}
+
+.workflow-wrap .workflow-regist .header.templete .top>div .btn-icon .btn-edit:hover {
+    background-color: #e9e9e9
+}
+
+.workflow-wrap .workflow-regist .header.templete .top>div .btn-icon .btn-history {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url(../images/common/ic_history.svg) no-repeat;
+    border-radius: 5px
+}
+
+.workflow-wrap .workflow-regist .header.templete .top>div .btn-icon .btn-history:hover {
+    background-color: #e9e9e9
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom {
+    align-items: flex-start;
+    gap: 0
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .ins-box {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    align-items: center;
+    border-radius: 3px;
+    border: 1px solid #FA0;
+    background: #FFF0C7;
+    font-size: 13px;
+    color: #1f1f1f
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .title {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 20px;
+    color: #383838
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .add-block {
+    display: flex;
+    margin-top: 5px
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .add-block span {
+    position: relative;
+    font-size: 13px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .add-block span+span {
+    padding-left: 12px
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .add-block span+span:before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 4px;
+    width: 2px;
+    height: 2px;
+    background: #8F8F8F
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .cont {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #383838
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .btn-add-workflow {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    height: 36px;
+    margin-top: 20px;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    background: #A669F0;
+    border-radius: 5px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #fff
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .btn-add-workflow>i {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/common/ic_path_2.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .btn-restore {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    height: 36px;
+    margin-top: 20px;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    background: #108294;
+    border-radius: 5px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #fff
+}
+
+.workflow-wrap .workflow-regist .header.templete .bottom .btn-restore>i {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/common/ic_restore.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail {
+    padding: 20px
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    padding: 6px 4px 6px 35px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #108294;
+    background: #eee;
+    border-radius: 5px
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .txt-group {
+    display: flex;
+    align-items: center;
+    min-width: calc(100% - 51px)
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .txt-group span {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .status {
+    flex-shrink: 0;
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    font-size: 11px;
+    margin: 0 10px;
+    background: #108294;
+    color: #fff;
+    padding: 0 3px;
+    border-radius: 3px
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .btn-expand {
+    position: absolute;
+    top: 8px;
+    left: 7px;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_ar_expand.svg) no-repeat;
+    border-radius: 4px;
+    cursor: pointer;
+    transform: rotate(180deg);
+    transition: transform 0.2s
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .btn-expand.on {
+    transform: rotate(90deg);
+    background-color: #fafafa
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step .btn-expand:hover {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step label.modify {
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_edit_2.svg) no-repeat;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step label.modify:hover {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step label.delete {
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_trash.svg) no-repeat;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0
+}
+
+.workflow-wrap .workflow-regist .regist-detail h2.title-step label.delete:hover {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list.hide {
+    display: none
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li {
+    position: relative;
+    padding: 10px 5px 10px 35px;
+    border-bottom: 1px solid #f3f3f3
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .checkbox-circle {
+    position: absolute;
+    top: 12px;
+    left: 5px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .my-workflow {
+    margin: 0 -5px 0 -35px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li:hover .icon-block {
+    display: block;
+    background: #fff
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .deleted-area {
+    margin: 0 -25px !important;
+    padding: 5px 25px !important;
+    background: #fcf1f3
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .deleted-area.item {
+    padding: 2px 25px !important
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .deleted-area+.deleted-area {
+    padding-top: 0 !important
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .added-area {
+    margin: 0 -25px !important;
+    padding: 5px 25px !important;
+    background: #edfffd
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list>li .added-area.item {
+    padding: 2px 25px !important
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list+h2.title-step {
+    margin-top: 46px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .drag-list+h2.title-step:before {
+    content: "";
+    position: absolute;
+    top: -36px;
+    left: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    background: url(../images/common/ic_ar_down.svg) no-repeat;
+    background-size: 130%
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    z-index: 2
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block>label {
+    display: inline-block;
+    margin: 0 1px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border-radius: 4px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block>label:hover {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block i.delete {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_trash.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block i.drag {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_drag.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block .more-wrap {
+    display: inline-block
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block .more-wrap .more {
+    background: url(../images/common/ic_more_vert.svg) no-repeat;
+    border-radius: 4px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block .more-wrap .more:hover,
+.workflow-wrap .workflow-regist .regist-detail .icon-block .more-wrap .more.active {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail .icon-block .more-wrap .more-layer {
+    right: 0
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable {
+    position: relative;
+    width: 100%;
+    z-index: 1
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable .edit-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 16px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable .edit-title {
+    position: relative;
+    width: 100%;
+    max-width: calc(100% - 20px);
+    max-height: 50px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #1F1F1F;
+    text-align: left;
+    outline: none;
+    overflow: hidden;
+    z-index: 10
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable .memo-more {
+    font-size: 13px;
+    color: #096DD9;
+    text-decoration: underline;
+    cursor: pointer
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable.type2 {
+    margin-top: 4px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable.type2 .edit-placeholder {
+    font-size: 13px;
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    color: #c4c4c4
+}
+
+.workflow-wrap .workflow-regist .regist-detail .editable.type2 .edit-title {
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 13px;
+    font-family: Apple SD Gothic Neo, arial, sans-serif;
+    line-height: 1.4;
+    color: #888888
+}
+
+.workflow-wrap .workflow-regist .regist-detail .edit {
+    position: relative;
+    padding: 10px 5px 11px 35px;
+    border-bottom: 1px solid #f3f3f3
+}
+
+.workflow-wrap .workflow-regist .regist-detail .edit .checkbox-circle {
+    position: absolute;
+    top: 12px;
+    left: 5px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .edit .more-wrap {
+    position: absolute;
+    top: 13px;
+    right: 5px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .edit .more-wrap .more {
+    background: url(../images/common/ic_more_vert.svg) no-repeat;
+    border-radius: 4px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .edit .more-wrap .more:hover,
+.workflow-wrap .workflow-regist .regist-detail .edit .more-wrap .more.active {
+    background-color: #f5f5f5
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 13px;
+    font-family: Apple SD Gothic Neo, arial, sans-serif
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item {
+    position: relative;
+    z-index: 1
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link {
+    display: flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 20px 0 5px;
+    gap: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-radius: 5px;
+    background: rgba(245, 245, 245, 0.5)
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link.bg2 {
+    background: rgba(210, 249, 255, 0.25)
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link>i {
+    display: block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link>i.ic-user {
+    background: url(../images/common/ic_user_2.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link>i.ic-link {
+    background: url(../images/common/ic_link.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link>i.ic-attach {
+    background: url(../images/common/ic_attach.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link>i.ic-calendar {
+    background: url(../images/common/ic_wf_calendar.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link span {
+    display: block;
+    font-size: 13px;
+    color: #383838;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.link span.name {
+    display: block;
+    max-width: calc(100% - 22px);
+    color: #003A8C;
+    text-decoration: underline;
+    flex-shrink: 0
+}
+
+.workflow-wrap .workflow-regist .regist-detail .sub-info .item a.delete {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+    background: url(../images/common/ic_delete_x_2.svg) no-repeat;
+    z-index: 2
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px auto;
+    max-width: 120px;
+    min-height: 24px
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step:hover .add-step {
+    display: flex
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step .btn-more {
+    display: block;
+    width: 24px;
+    height: 16px;
+    border-radius: 5px;
+    border: 1px solid #D8D8D8;
+    background: #fff url(../images/common/ic_more_dot.svg) no-repeat center
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step .add-step {
+    display: none;
+    align-items: center;
+    margin-top: 6px;
+    gap: 5px;
+    padding: 10px 20px 10px 10px;
+    width: 103px;
+    height: 37px;
+    border-radius: 5px;
+    background: #F5F5F5;
+    box-shadow: 0 0 1px 0 rgba(9, 30, 66, 0.31), 0 8px 12px 0 rgba(9, 30, 66, 0.15)
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step .add-step i {
+    display: block;
+    width: 14px;
+    height: 15px;
+    background: url(../images/common/ic_step.svg) no-repeat
+}
+
+.workflow-wrap .workflow-regist .regist-detail .more-step .add-step span {
+    display: block;
+    font-size: 12px;
+    color: #1F1F1F;
+    line-height: 1.6
+}
+
+.workflow-wrap .workflow-regist .regist-detail.templete .drag-list>li {
+    padding: 10px 5px
+}
+
+.workflow-wrap .workflow-regist .regist-detail.templete .drag-list>li .editable .title {
+    margin: 5px 0;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #1F1F1F
+}
+
+.workflow-wrap .workflow-regist .regist-detail.templete .drag-list>li .editable .cont {
+    margin: 5px 0;
+    font-size: 13px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .workflow-regist .regist-detail.templete .edit {
+    padding: 10px 5px 11px
+}
+
+.workflow-wrap .more-wrap {
+    position: relative;
+    min-width: 20px;
+    min-height: 20px
+}
+
+.workflow-wrap .more-wrap .more {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_more_vert_w.svg) no-repeat center;
+    border-radius: 4px;
+    z-index: 10
+}
+
+.workflow-wrap .more-wrap .more:hover,
+.workflow-wrap .more-wrap .more.active {
+    background-color: rgba(20, 20, 20, 0.2)
+}
+
+.workflow-wrap .more-wrap .more.active+.more-layer {
+    display: block
+}
+
+.workflow-wrap .more-wrap .more-layer {
+    display: none;
+    position: absolute;
+    top: 22px;
+    right: 10px;
+    min-width: 94px;
+    box-shadow: 0 7px 15px rgba(9, 30, 66, 0.2);
+    border-radius: 5px;
+    background: #F5F5F5;
+    box-shadow: 0 0 1px 0 rgba(9, 30, 66, 0.31), 0 8px 12px 0 rgba(9, 30, 66, 0.15);
+    z-index: 11;
+    font-family: Apple SD Gothic Neo, arial, sans-serif
+}
+
+.workflow-wrap .more-wrap .more-layer>ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 4px 0
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li {
+    display: block;
+    width: 100%
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    padding: 0 18px 0 10px;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #1f1f1f;
+    white-space: nowrap
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i {
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin-bottom: 2px
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-duplicate {
+    background: url(../images/common/ic_wf_duplicate.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-delete {
+    background: url(../images/common/ic_wf_delete.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-publish {
+    background: url(../images/common/ic_wf_publish.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-droplet {
+    background: url(../images/common/ic_wf_droplet.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-complete {
+    background: url(../images/common/ic_wf_complete.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-add-workflow {
+    background: url(../images/common/ic_wf_addflow.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-add-condition {
+    background: url(../images/common/ic_wf_addcon.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-link {
+    background: url(../images/common/ic_wf_link.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-attach {
+    background: url(../images/common/ic_wf_attach.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-user {
+    background: url(../images/common/ic_wf_user.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a i.ic-calendar {
+    background: url(../images/common/ic_wf_calendar.svg) no-repeat
+}
+
+.workflow-wrap .more-wrap .more-layer>ul li a:hover {
+    background: #e8e8e8
+}
+
+.workflow-wrap h2.sub-title {
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    height: 30px;
+    gap: 5px
+}
+
+.workflow-wrap h2.sub-title>span {
+    font-size: 14px;
+    color: #8F8F8F
+}
+
+.workflow-wrap h2.sub-title .num {
+    color: #C4C4C4
+}
+
+.workflow-wrap h2.sub-title+p.no-data {
+    margin: 15px 25px;
+    font-size: 16px;
+    color: #C4C4C4
+}
+
+.workflow-wrap .search-result {
+    margin: 0 20px
+}
+
+.workflow-wrap .search-result>li>a {
+    display: block;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #383838;
+    padding: 9px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.workflow-wrap .search-result>li>a .highlighted {
+    color: #26B9D1
+}
+
+.workflow-wrap .search-result>li.no-data {
+    padding: 38px 0;
+    height: auto;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #383838;
+    text-align: center
+}
+
+.workflow-wrap .search-result+h2.sub-title {
+    margin-top: 20px
+}
+
+.workflow-wrap .form-wrap {
+    margin: 0 20px
+}
+
+.workflow-wrap .form-wrap>h4 {
+    margin-bottom: 30px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 20px;
+    color: #383838
+}
+
+.workflow-wrap .form-wrap .btn {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;
+    padding: 0 4px;
+    gap: 10px
+}
+
+.workflow-wrap .form-wrap .btn i.ic-add {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_add.svg) no-repeat
+}
+
+.workflow-wrap .form-wrap .btn span {
+    display: block;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #383838
+}
+
+.workflow-wrap .form-wrap dl.form-block dt {
+    position: relative;
+    display: block;
+    margin-bottom: 9px;
+    font-size: 16px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .form-wrap dl.form-block dt .required {
+    position: absolute;
+    top: 7px;
+    left: -4px;
+    width: 4px;
+    height: 4px;
+    background: #e0205c;
+    border-radius: 50%
+}
+
+.workflow-wrap .form-wrap dl.form-block dd {
+    min-height: 42px
+}
+
+.workflow-wrap .form-wrap dl.form-block dd input[type="text"] {
+    width: 100%;
+    height: 42px;
+    padding: 1px 46px 0 8px;
+    font-size: 16px;
+    color: #383838;
+    background: #fff;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    outline: none
+}
+
+.workflow-wrap .form-wrap dl.form-block dd input[type="text"]:hover {
+    border: 1px solid #555
+}
+
+.workflow-wrap .form-wrap dl.form-block dd+dt {
+    margin-top: 19px
+}
+
+.workflow-wrap .form-wrap dl.form-block dd+dd {
+    margin-top: 10px
+}
+
+.workflow-wrap .modify-list {
+    margin: -28px 20px 0
+}
+
+.workflow-wrap .modify-list>li {
+    display: flex;
+    flex-direction: column;
+    margin: 21px 0;
+    padding: 0 5px;
+    gap: 1px
+}
+
+.workflow-wrap .modify-list>li .date {
+    font-size: 13px;
+    color: #1F1F1F
+}
+
+.workflow-wrap .modify-list>li .cont {
+    font-size: 13px;
+    color: #8F8F8F
+}
+
+.workflow-wrap .modify-list>li .cont span {
+    position: relative
+}
+
+.workflow-wrap .modify-list>li .cont span+span {
+    padding-left: 12px
+}
+
+.workflow-wrap .modify-list>li .cont span+span:before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 4px;
+    width: 2px;
+    height: 2px;
+    background: #8F8F8F
+}
+
+.workflow-wrap .btn-plus {
+    position: fixed;
+    bottom: 23px;
+    right: 21px;
+    width: 48px;
+    height: 48px;
+    background: #ADADAD url(../images/common/ic_add_plus_2.svg) no-repeat center;
+    border-radius: 50%;
+    z-index: 100
+}
+
+.user-list {
+    position: relative
+}
+
+.user-list .search-input {
+    position: relative
+}
+
+.user-list .search-input input[type="text"],
+.user-list .search-input input[type="search"] {
+    height: 36px;
+    font-size: 13px;
+    padding: 0 6px 0 32px;
+    border-radius: 3px
+}
+
+.user-list .search-input .btn-search {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 34px;
+    height: 34px;
+    background: url(../images/common/ic_search_2.svg) no-repeat center;
+    border: none;
+    cursor: pointer;
+    outline: none
+}
+
+.user-list .search-input input::-webkit-search-cancel-button {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/common/btn_search_delete.svg) no-repeat center;
+    background-size: 100%;
+    border: none;
+    -webkit-appearance: none;
+    cursor: pointer
+}
+
+.user-list>ul {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    padding: 8px 0;
+    border-radius: 2px;
+    border: 1px solid #B9BCBB;
+    background: #FFF;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.11), 0 0 2px 0 rgba(0, 0, 0, 0.17);
+    z-index: 2;
+    max-height: 266px;
+    overflow: auto
+}
+
+.user-list>ul>li>a {
+    display: flex;
+    padding: 6px 8px;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    font-size: 13px;
+    color: #1F1F1F
+}
+
+.user-list>ul>li>a:hover {
+    background: #f5f5f5
+}
+
+.user-list>ul>li.active>a {
+    background: #D2F9FF
+}
+
+label.checkbox-circle {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer
+}
+
+label.checkbox-circle input[type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0
+}
+
+label.checkbox-circle input[type="checkbox"]+span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_checkbox_circle.svg) no-repeat
+}
+
+label.checkbox-circle input[type="checkbox"]:checked+span {
+    background: url(../images/common/ic_checkbox_circle_checked.svg) no-repeat
+}
+
+label.radio {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer
+}
+
+label.radio input[type="radio"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0
+}
+
+label.radio input[type="radio"]+span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #B9BCBB;
+    background: #fff;
+    border-radius: 50%
+}
+
+label.radio input[type="radio"]:checked+span {
+    border-color: #2D9BB2;
+    background: #2D9BB2
+}
+
+label.radio input[type="radio"]:checked+span:after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%
+}
+
+.radio-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px
+}
+
+.radio-wrap>li label.radio {
+    width: auto
+}
+
+.radio-wrap>li label.radio em {
+    margin-left: 26px;
+    font-size: 16px;
+    color: #1f1f1f;
+    line-height: 1
+}
+
+dl.form-block2 dt {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+    min-height: 36px;
+    margin: 3px 0;
+    font-family: "SpoqaHanSansNeoBold";
+    font-size: 16px;
+    color: #1f1f1f
+}
+
+dl.form-block2 dt .required {
+    position: absolute;
+    top: 4px;
+    left: -6px;
+    width: 4px;
+    height: 4px;
+    background: #e0205c;
+    border-radius: 50%
+}
+
+dl.form-block2 dd {
+    display: inline-block;
+    padding: 3px 0;
+    margin: 3px 0;
+    min-width: 190px;
+    min-height: 36px;
+    vertical-align: top;
+    margin-bottom: 5px
+}
+
+dl.form-block2+p {
+    margin-top: 20px
+}
+
+.search-user {
+    display: flex;
+    margin: 30px 0;
+    flex-direction: column;
+    gap: 15px
+}
+
+.search-user>li>a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 24px;
+    padding-right: 28px
+}
+
+.search-user>li>a .per {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #E3E5E8;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden
+}
+
+.search-user>li>a .per img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 0 15%
+}
+
+.search-user>li>a .per span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    color: #383838
+}
+
+.search-user>li>a .per span.c1 {
+    background: #F5F5F5
+}
+
+.search-user>li>a .per span.c2 {
+    background: #D2F9FF
+}
+
+.search-user>li>a .per span.c3 {
+    background: #FBE4E9
+}
+
+.search-user>li>a .name {
+    font-size: 13px;
+    color: #383838;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.search-user>li>a .team {
+    font-size: 13px;
+    color: #8F8F8F;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.search-user>li>a .delete {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_layer_close.svg) no-repeat center;
+    background-size: 16px;
+    border-radius: 3px
+}
+
+.search-user>li>a .delete:hover {
+    background-color: #f5f5f5
+}
+
+.search-user>li>a:hover .name {
+    text-decoration: underline
+}
+
+.layer-pop {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 346px;
+    margin: 0 auto;
+    display: none;
+    flex-direction: column;
+    border-radius: 3px;
+    border: 1px solid #B9BCBB;
+    background: #FFF;
+    transform: translateY(-50%);
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.22);
+    z-index: 101
+}
+
+.layer-pop.show {
+    display: flex
+}
+
+.layer-pop .layer-header {
+    display: flex;
+    height: 80px;
+    padding: 23px 18px 24px 23px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px
+}
+
+.layer-pop .layer-header h2 {
+    position: relative;
+    padding-left: 15px;
+    font-family: "SpoqaHanSansNeoBold";
+    font-size: 18px;
+    color: #0B3E63
+}
+
+.layer-pop .layer-header h2:before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #108294;
+    border-radius: 50%
+}
+
+.layer-pop .layer-header h2.no-blt {
+    padding-left: 0
+}
+
+.layer-pop .layer-header h2.no-blt:before {
+    display: none
+}
+
+.layer-pop .layer-header .close {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url(../images/common/ic_layer_close.svg) no-repeat center
+}
+
+.layer-pop .layer-header .close:hover {
+    background-color: #f5f5f5
+}
+
+.layer-pop .layer-content {
+    padding: 0 23px 24px
+}
+
+.layer-pop .layer-content>p {
+    font-size: 16px;
+    color: #1f1f1f
+}
+
+.layer-pop .layer-content .inputbox {
+    height: 32px;
+    font-size: 13px;
+    border-radius: 2px
+}
+
+.layer-pop .layer-content .btn-wrap {
+    margin: 15px 0 0
+}
+
+.layer-pop .btn-wrap {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 15px 23px 23px;
+    gap: 8px
+}
+
+.layer-pop .btn-wrap .btns {
+    display: flex;
+    min-width: 56px;
+    height: 36px;
+    padding: 0 16px;
+    justify-content: center;
+    align-items: center;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #5B5C5B;
+    border-radius: 3px;
+    background: #fff
+}
+
+.layer-pop .btn-wrap .btns:hover,
+.layer-pop .btn-wrap .btns:active {
+    background-color: #f5f5f5
+}
+
+.layer-pop .btn-wrap .btns.btn-save {
+    color: #fff;
+    background: #108294
+}
+
+.layer-pop .btn-wrap .btns.disabled {
+    opacity: 0.4;
+    pointer-events: none
+}
+
+.layer-pop .btn-wrap .btn-today {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 12px;
+    gap: 4px;
+    border-radius: 3px
+}
+
+.layer-pop .btn-wrap .btn-today:hover {
+    background-color: #f5f5f5
+}
+
+.layer-pop .btn-wrap .btn-today>i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/common/ic_reset.svg) no-repeat center
+}
+
+.layer-pop .btn-wrap .btn-today>span {
+    display: block;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #5B5C5B
+}
+
+.layer-pop.colorpicker {
+    width: 255px
+}
+
+.layer-pop.colorpicker .color-palette {
+    display: flex;
+    padding: 38px 19px 6px;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.layer-pop.colorpicker .color-palette a.picker {
+    display: flex;
+    align-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color01 {
+    background: #904FF2
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color02 {
+    background: #26B9D1
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color03 {
+    background: #FFB941
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color04 {
+    background: #34BC6F
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color05 {
+    background: #5F22C2
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color06 {
+    background: #F7504F
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color07 {
+    background: #4B82EF
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color08 {
+    background: #FC68D0
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color09 {
+    background: #2D3282
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color10 {
+    background: #841651
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color11 {
+    background: #108294
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color12 {
+    background: #8F8F8F
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color13 {
+    background: #876800
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color14 {
+    background: #9C2A10
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color15 {
+    background: #383838
+}
+
+.layer-pop.colorpicker .color-palette a.picker.color16 {
+    background: #000000
+}
+
+.layer-pop.colorpicker .color-palette a.picker.checked {
+    background-image: url(../images/common/ic_color_check.svg);
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+.layer-pop.layer-datepicker {
+    width: 292px
+}
+
+.layer-pop .datepicker-wrap {
+    width: 252px;
+    margin: 20px auto
+}
+
+.layer-pop .datepicker-wrap .datepicker-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    margin: 6px 0 8px
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div {
+    display: flex
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-year {
+    position: relative
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-year>ul {
+    position: absolute;
+    top: 28px;
+    left: -12px;
+    width: 95px;
+    height: 272px;
+    padding: 8px 0;
+    border-radius: 2px;
+    border: 1px solid #B9BCBB;
+    background: #FFF;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.11), 0 0 2px 0 rgba(0, 0, 0, 0.17);
+    overflow: auto;
+    z-index: 2
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-year>ul>li>a {
+    display: flex;
+    padding: 6px 8px;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    font-size: 13px;
+    color: #1F1F1F
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-year>ul>li>a:hover {
+    background: #f5f5f5
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-year>ul>li.active>a {
+    background: #D2F9FF
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-month {
+    position: relative
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-month>ul {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 28px;
+    left: -12px;
+    width: 194px;
+    height: 144px;
+    padding: 7px;
+    border-radius: 2px;
+    border: 1px solid #B9BCBB;
+    background: #FFF;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.11), 0 0 2px 0 rgba(0, 0, 0, 0.17);
+    z-index: 2
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-month>ul>li>a {
+    display: flex;
+    width: 59px;
+    padding: 6px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    font-size: 13px;
+    color: #1F1F1F
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-month>ul>li>a:hover {
+    background: #f5f5f5
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .select-month>ul>li.active>a {
+    background: #D2F9FF
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .selectpicker {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 16px;
+    color: #1F1F1F
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .selectpicker>span {
+    display: block;
+    min-width: 30px
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>div .selectpicker>i {
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: url(../images/common/ic_ar_sel.svg) no-repeat center
+}
+
+.layer-pop .datepicker-wrap .datepicker-top .btns {
+    display: flex;
+    height: 32px;
+    gap: 2px
+}
+
+.layer-pop .datepicker-wrap .datepicker-top .btns .prev {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url(../images/common/ic_cal_prev.svg) no-repeat center
+}
+
+.layer-pop .datepicker-wrap .datepicker-top .btns .prev:hover {
+    background-color: #f5f5f5
+}
+
+.layer-pop .datepicker-wrap .datepicker-top .btns .next {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url(../images/common/ic_cal_next.svg) no-repeat center
+}
+
+.layer-pop .datepicker-wrap .datepicker-top .btns .next:hover {
+    background-color: #f5f5f5
+}
+
+.layer-pop .datepicker-wrap .datepicker-top>i {
+    display: block
+}
+
+.layer-pop .datepicker-wrap>table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+.layer-pop .datepicker-wrap>table thead th {
+    padding: 10px 0;
+    font-size: 12px;
+    font-weight: normal;
+    color: #8F8F8F
+}
+
+.layer-pop .datepicker-wrap>table tbody td {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+    text-align: center;
+    color: #1f1f1f;
+    border-radius: 18px;
+    cursor: pointer
+}
+
+.layer-pop .datepicker-wrap>table tbody td:hover {
+    background: #f5f5f5
+}
+
+.layer-pop .datepicker-wrap>table tbody td.today {
+    color: #fff;
+    background: #26B9D1
+}
+
+.layer-pop .datepicker-wrap>table tbody td.active {
+    color: #fff !important;
+    background: #383838 !important
+}
+
+.layer-pop .datepicker-wrap>table tbody td:first-child {
+    color: #e0205c
+}
+
+.layer-pop .datepicker-wrap>table tbody td.old,
+.layer-pop .datepicker-wrap>table tbody td.new {
+    opacity: .4
+}
+
+.full-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 92px 0 0;
+    overflow: auto;
+    background: #fff;
+    z-index: 100
+}
+
+.full-layer .close {
+    position: absolute;
+    top: 29px;
+    left: 6px;
+    width: 36px;
+    height: 36px;
+    background: url(../images/common/ic_layer_close_2.svg) no-repeat center
+}
+
+.full-layer .close:hover {
+    background-color: #f5f5f5
+}
+
+.full-layer .content {
+    height: calc(100vh - 92px);
+    padding: 0 20px 20px;
+    overflow: auto
+}
+
+.full-layer>h1 {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 20px;
+    color: #383838
+}
+
+.full-layer .add-block {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin: 5px 0 18px
+}
+
+.full-layer .add-block p {
+    display: flex;
+    align-items: center;
+    gap: 4px
+}
+
+.full-layer .add-block p i.ic-people {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: url(../images/common/ic_users_2.svg) no-repeat
+}
+
+.full-layer .add-block p span {
+    display: block;
+    font-size: 13px;
+    color: #8F8F8F
+}
+
+.full-layer .add-block p em {
+    font-family: "SpoqaHanSansNeoMedium";
+    font-size: 13px;
+    color: #26B9D1
+}
+
+.full-layer .ins {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #8F8F8F
+}
