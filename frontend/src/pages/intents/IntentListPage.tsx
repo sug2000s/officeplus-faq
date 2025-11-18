@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useIntents, useDeleteIntent } from '../../hooks/useIntents';
+import { useFaqs, useDeleteFaq } from '../../hooks/useFaqs';
 import { useTags } from '../../hooks/useTags';
 import { Button, SearchInput, Pagination, TagBadge, ConfirmModal } from '../../components/common';
-import type { IntentListItem } from '../../types';
+import type { FaqListItem } from '../../types';
 import styles from './IntentListPage.module.css';
 
 export const IntentListPage: React.FC = () => {
@@ -12,17 +12,19 @@ export const IntentListPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTagId, setSelectedTagId] = useState<number | undefined>();
-  const [deleteTarget, setDeleteTarget] = useState<IntentListItem | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
+  const [deleteTarget, setDeleteTarget] = useState<FaqListItem | null>(null);
 
-  const { data, isLoading, error } = useIntents({
+  const { data, isLoading, error } = useFaqs({
     page,
     page_size: 20,
     search: searchQuery || undefined,
     tag_id: selectedTagId,
+    is_active: selectedStatus,
   });
 
   const { data: tags } = useTags(true);
-  const deleteIntent = useDeleteIntent();
+  const deleteFaq = useDeleteFaq();
 
   const handleSearch = () => {
     setSearchQuery(search);
@@ -32,7 +34,7 @@ export const IntentListPage: React.FC = () => {
   const handleDelete = async () => {
     if (!deleteTarget) return;
     try {
-      await deleteIntent.mutateAsync(deleteTarget.id);
+      await deleteFaq.mutateAsync(deleteTarget.id);
       setDeleteTarget(null);
     } catch (error) {
       console.error('Delete failed:', error);
@@ -72,6 +74,19 @@ export const IntentListPage: React.FC = () => {
             </option>
           ))}
         </select>
+        <select
+          className={styles.tagFilter}
+          value={selectedStatus === undefined ? '' : selectedStatus ? 'true' : 'false'}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSelectedStatus(value === '' ? undefined : value === 'true');
+            setPage(1);
+          }}
+        >
+          <option value="">전체 상태</option>
+          <option value="true">활성</option>
+          <option value="false">비활성</option>
+        </select>
       </div>
 
       {isLoading ? (
@@ -83,7 +98,6 @@ export const IntentListPage: React.FC = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>의도명</th>
                   <th>질문</th>
                   <th>태그</th>
                   <th>상태</th>
@@ -94,23 +108,22 @@ export const IntentListPage: React.FC = () => {
               <tbody>
                 {data?.items.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className={styles.empty}>
+                    <td colSpan={6} className={styles.empty}>
                       등록된 FAQ가 없습니다.
                     </td>
                   </tr>
                 ) : (
-                  data?.items.map((intent) => (
-                    <tr key={intent.id}>
-                      <td>{intent.intent_id}</td>
+                  data?.items.map((faq) => (
+                    <tr key={faq.id}>
+                      <td>{faq.id}</td>
                       <td>
-                        <Link to={`/intents/${intent.id}`} className={styles.link}>
-                          {intent.intent_name}
+                        <Link to={`/intents/${faq.id}`} className={styles.link}>
+                          {faq.question}
                         </Link>
                       </td>
-                      <td className={styles.question}>{intent.display_question}</td>
                       <td>
                         <div className={styles.tags}>
-                          {intent.tags.map((tag) => (
+                          {faq.tags.map((tag) => (
                             <TagBadge key={tag.id} name={tag.name} color={tag.color} />
                           ))}
                         </div>
@@ -118,26 +131,26 @@ export const IntentListPage: React.FC = () => {
                       <td>
                         <span
                           className={`${styles.status} ${
-                            intent.is_active ? styles.active : styles.inactive
+                            faq.is_active ? styles.active : styles.inactive
                           }`}
                         >
-                          {intent.is_active ? '활성' : '비활성'}
+                          {faq.is_active ? '활성' : '비활성'}
                         </span>
                       </td>
-                      <td>{new Date(intent.updated_at).toLocaleDateString('ko-KR')}</td>
+                      <td>{new Date(faq.updated_at).toLocaleDateString('ko-KR')}</td>
                       <td>
                         <div className={styles.actions}>
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => navigate(`/intents/${intent.id}/edit`)}
+                            onClick={() => navigate(`/intents/${faq.id}/edit`)}
                           >
                             수정
                           </Button>
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => setDeleteTarget(intent)}
+                            onClick={() => setDeleteTarget(faq)}
                           >
                             삭제
                           </Button>
@@ -165,9 +178,9 @@ export const IntentListPage: React.FC = () => {
         onClose={() => setDeleteTarget(null)}
         onConfirm={handleDelete}
         title="FAQ 삭제"
-        message={`"${deleteTarget?.intent_name}"을(를) 삭제하시겠습니까?`}
+        message={`"${deleteTarget?.question}"을(를) 삭제하시겠습니까?`}
         confirmText="삭제"
-        isLoading={deleteIntent.isPending}
+        isLoading={deleteFaq.isPending}
       />
     </div>
   );

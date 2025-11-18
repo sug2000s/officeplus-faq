@@ -29,7 +29,7 @@ export interface TagUpdate {
 // Question Variant Types
 export interface QuestionVariant {
   id: number;
-  intent_id: number;
+  faq_id: number;
   question_text: string;
   is_representative: boolean;
   created_at: string;
@@ -40,13 +40,10 @@ export interface QuestionVariantCreate {
   is_representative?: boolean;
 }
 
-// Intent Types
-export interface IntentListItem {
+// FAQ Types
+export interface FaqListItem {
   id: number;
-  intent_id: string;
-  intent_type: string | null;
-  intent_name: string;
-  display_question: string;
+  question: string;
   usage_frequency: number;
   question_count: number;
   is_active: boolean;
@@ -55,35 +52,24 @@ export interface IntentListItem {
   tags: Tag[];
 }
 
-export interface IntentDetail extends IntentListItem {
-  representative_question: string;
+export interface FaqDetail extends FaqListItem {
   answer: string;
-  context: string | null;
   created_by: string | null;
   updated_by: string | null;
   question_variants: QuestionVariant[];
 }
 
-export interface IntentCreate {
-  intent_id: string;
-  intent_type?: string | null;
-  intent_name: string;
-  representative_question: string;
-  display_question: string;
+export interface FaqCreate {
+  question: string;
   answer: string;
-  context?: string | null;
   is_active?: boolean;
   tag_ids?: number[];
   question_variants?: QuestionVariantCreate[];
 }
 
-export interface IntentUpdate {
-  intent_type?: string | null;
-  intent_name?: string;
-  representative_question?: string;
-  display_question?: string;
+export interface FaqUpdate {
+  question?: string;
   answer?: string;
-  context?: string | null;
   is_active?: boolean;
   tag_ids?: number[];
 }
@@ -110,7 +96,7 @@ export interface DeleteResponse {
 }
 
 // Filter Types
-export interface IntentFilters {
+export interface FaqFilters {
   page?: number;
   page_size?: number;
   search?: string;

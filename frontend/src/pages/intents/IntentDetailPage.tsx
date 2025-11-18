@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useIntent, useDeleteIntent, useCreateVariant, useDeleteVariant } from '../../hooks/useIntents';
+import { useFaq, useDeleteFaq, useCreateVariant, useDeleteVariant } from '../../hooks/useFaqs';
 import { Button, TagBadge, ConfirmModal } from '../../components/common';
 import styles from './IntentDetailPage.module.css';
 
 export const IntentDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const intentId = Number(id);
+  const faqId = Number(id);
 
-  const { data: intent, isLoading, error } = useIntent(intentId);
-  const deleteIntent = useDeleteIntent();
+  const { data: faq, isLoading, error } = useFaq(faqId);
+  const deleteFaq = useDeleteFaq();
   const createVariant = useCreateVariant();
   const deleteVariant = useDeleteVariant();
 
@@ -20,7 +20,7 @@ export const IntentDetailPage: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      await deleteIntent.mutateAsync(intentId);
+      await deleteFaq.mutateAsync(faqId);
       navigate('/intents');
     } catch (error) {
       console.error('Delete failed:', error);
@@ -31,7 +31,7 @@ export const IntentDetailPage: React.FC = () => {
     if (!newVariant.trim()) return;
     try {
       await createVariant.mutateAsync({
-        intentId,
+        faqId,
         data: { question_text: newVariant.trim(), is_representative: false },
       });
       setNewVariant('');
@@ -54,7 +54,7 @@ export const IntentDetailPage: React.FC = () => {
     return <div className={styles.loading}>로딩 중...</div>;
   }
 
-  if (error || !intent) {
+  if (error || !faq) {
     return <div className={styles.error}>FAQ를 찾을 수 없습니다.</div>;
   }
 
@@ -62,8 +62,7 @@ export const IntentDetailPage: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-          <h2 className={styles.title}>{intent.intent_name}</h2>
-          <span className={styles.intentId}>{intent.intent_id}</span>
+          <h2 className={styles.title}>{faq.question}</h2>
         </div>
         <div className={styles.actions}>
           <Button variant="secondary" onClick={() => navigate('/intents')}>
@@ -80,23 +79,21 @@ export const IntentDetailPage: React.FC = () => {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>기본 정보</h3>
           <dl className={styles.infoList}>
-            <dt>의도 유형</dt>
-            <dd>{intent.intent_type || '-'}</dd>
             <dt>상태</dt>
             <dd>
               <span
                 className={`${styles.status} ${
-                  intent.is_active ? styles.active : styles.inactive
+                  faq.is_active ? styles.active : styles.inactive
                 }`}
               >
-                {intent.is_active ? '활성' : '비활성'}
+                {faq.is_active ? '활성' : '비활성'}
               </span>
             </dd>
             <dt>태그</dt>
             <dd>
               <div className={styles.tags}>
-                {intent.tags.length > 0 ? (
-                  intent.tags.map((tag) => (
+                {faq.tags.length > 0 ? (
+                  faq.tags.map((tag) => (
                     <TagBadge key={tag.id} name={tag.name} color={tag.color} />
                   ))
                 ) : (
@@ -105,41 +102,26 @@ export const IntentDetailPage: React.FC = () => {
               </div>
             </dd>
             <dt>작성자</dt>
-            <dd>{intent.created_by || '-'}</dd>
+            <dd>{faq.created_by || '-'}</dd>
             <dt>생성일</dt>
-            <dd>{new Date(intent.created_at).toLocaleString('ko-KR')}</dd>
+            <dd>{new Date(faq.created_at).toLocaleString('ko-KR')}</dd>
             <dt>수정일</dt>
-            <dd>{new Date(intent.updated_at).toLocaleString('ko-KR')}</dd>
+            <dd>{new Date(faq.updated_at).toLocaleString('ko-KR')}</dd>
           </dl>
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>질의응답</h3>
+          <h3 className={styles.sectionTitle}>답변</h3>
           <div className={styles.qaBlock}>
             <div className={styles.qaItem}>
-              <h4>화면 표시용 질의문</h4>
-              <p>{intent.display_question}</p>
+              <p className={styles.answer}>{faq.answer}</p>
             </div>
-            <div className={styles.qaItem}>
-              <h4>대표 질의문</h4>
-              <p>{intent.representative_question}</p>
-            </div>
-            <div className={styles.qaItem}>
-              <h4>답변</h4>
-              <p className={styles.answer}>{intent.answer}</p>
-            </div>
-            {intent.context && (
-              <div className={styles.qaItem}>
-                <h4>컨텍스트</h4>
-                <p>{intent.context}</p>
-              </div>
-            )}
           </div>
         </div>
 
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>
-            변형 질문 ({intent.question_variants.length})
+            변형 질문 ({faq.question_variants.length})
           </h3>
           <div className={styles.variantInput}>
             <input
@@ -161,9 +143,9 @@ export const IntentDetailPage: React.FC = () => {
               추가
             </Button>
           </div>
-          {intent.question_variants.length > 0 ? (
+          {faq.question_variants.length > 0 ? (
             <ul className={styles.variantList}>
-              {intent.question_variants.map((variant) => (
+              {faq.question_variants.map((variant) => (
                 <li key={variant.id}>
                   <span>
                     {variant.question_text}
@@ -191,9 +173,9 @@ export const IntentDetailPage: React.FC = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="FAQ 삭제"
-        message={`"${intent.intent_name}"을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`}
+        message={`"${faq.question}"을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`}
         confirmText="삭제"
-        isLoading={deleteIntent.isPending}
+        isLoading={deleteFaq.isPending}
       />
 
       <ConfirmModal

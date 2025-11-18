@@ -5,31 +5,13 @@ import pandas as pd
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.models.database import Base, Tag, IntentTag, Intent, QuestionVariant
+from app.models.database import Base, Tag, FaqTag, FAQ, QuestionVariant
 
 # Database configuration
 DATABASE_URL = "postgresql://ep_user:ep2005!@localhost:3009/ep_ax_agent"
 
 # CSV file path
 CSV_FILE_PATH = "docs/docs.csv"
-
-# Column mapping (Korean to English)
-COLUMN_MAPPING = {
-    '의도ID': 'intent_id',
-    '의도유형': 'intent_type',
-    '의도명': 'intent_name',
-    '의도그룹': 'intent_group',
-    '컨텍스트': 'context',
-    '사용상태': 'usage_status',
-    '총 사용빈도': 'usage_frequency',
-    '질의문 갯수': 'question_count',
-    '대표질의문': 'representative_question',
-    'display질의문': 'display_question',
-    '질의문': 'questions',
-    '등록자': 'created_by',
-    '수정자': 'updated_by',
-    '단순응답': 'answer',
-}
 
 
 def clean_text(text):
@@ -41,21 +23,21 @@ def clean_text(text):
 
 def parse_csv_file():
     """Parse CSV file and return DataFrame."""
-    print(f"📖 Reading CSV file: {CSV_FILE_PATH}")
+    print(f"Reading CSV file: {CSV_FILE_PATH}")
 
     try:
         # Read CSV with proper encoding
         df = pd.read_csv(CSV_FILE_PATH, encoding='utf-8-sig')
-        print(f"✅ CSV loaded: {len(df)} rows, {len(df.columns)} columns")
+        print(f"CSV loaded: {len(df)} rows, {len(df.columns)} columns")
 
         # Show column names
-        print(f"\n📋 CSV Columns:")
+        print(f"\nCSV Columns:")
         for i, col in enumerate(df.columns, 1):
             print(f"   {i}. {col}")
 
         return df
     except Exception as e:
-        print(f"❌ Error reading CSV: {e}")
+        print(f"Error reading CSV: {e}")
         sys.exit(1)
 
 
@@ -70,19 +52,19 @@ def import_data():
         # Parse CSV
         df = parse_csv_file()
 
-        print(f"\n🔄 Starting import process...")
+        print(f"\nStarting import process...")
 
         # Step 1: Clear existing data
-        print("\n1️⃣ Clearing existing data...")
-        deleted_intent_tags = session.query(IntentTag).delete()
+        print("\n1. Clearing existing data...")
+        deleted_faq_tags = session.query(FaqTag).delete()
         deleted_variants = session.query(QuestionVariant).delete()
-        deleted_intents = session.query(Intent).delete()
+        deleted_faqs = session.query(FAQ).delete()
         deleted_tags = session.query(Tag).delete()
         session.commit()
-        print(f"   ✅ Deleted: {deleted_variants} question variants, {deleted_intents} intents, {deleted_tags} tags, {deleted_intent_tags} intent_tags")
+        print(f"   Deleted: {deleted_variants} question variants, {deleted_faqs} FAQs, {deleted_tags} tags, {deleted_faq_tags} faq_tags")
 
         # Step 2: Extract unique tags (from 의도그룹)
-        print("\n2️⃣ Creating Tags...")
+        print("\n2. Creating Tags...")
         tags = {}
         unique_groups = df[df.columns[3]].unique()  # 의도그룹 column
 
@@ -100,26 +82,22 @@ def import_data():
                 session.add(tag)
                 session.flush()  # Get the ID
                 tags[str(tag_name).strip()] = tag.id
-                print(f"   ✅ Created: {tag.name} (ID: {tag.id})")
+                print(f"   Created: {tag.name} (ID: {tag.id})")
 
         session.commit()
-        print(f"   📊 Total Tags created: {len(tags)}")
+        print(f"   Total Tags created: {len(tags)}")
 
-        # Step 3: Import Intents and QuestionVariants
-        print("\n3️⃣ Importing Intents and Question Variants...")
+        # Step 3: Import FAQs and QuestionVariants
+        print("\n3. Importing FAQs and Question Variants...")
 
-        intents_created = 0
+        faqs_created = 0
         variants_created = 0
         errors = []
 
         for idx, row in df.iterrows():
             try:
-                # Get values from row by position (since column names might vary)
-                intent_id = clean_text(row[0])  # 의도ID
-                intent_type = clean_text(row[1])  # 의도유형
-                intent_name = clean_text(row[2])  # 의도명
+                # Get values from row by position
                 group_name = clean_text(row[3])  # 의도그룹
-                context = clean_text(row[4])  # 컨텍스트
                 usage_status = clean_text(row[5])  # 사용상태
                 usage_freq = row[6] if pd.notna(row[6]) else 0  # 총 사용빈도
                 q_count = row[7] if pd.notna(row[7]) else 0  # 질의문 갯수
@@ -131,21 +109,16 @@ def import_data():
                 answer = clean_text(row[14])  # 단순응답 (13번은 날짜 필드)
 
                 # Skip if essential fields are missing
-                if not intent_id or not intent_name or not rep_question or not answer:
-                    errors.append(f"Row {idx+2}: Missing essential fields")
+                if not display_q or not answer:
+                    errors.append(f"Row {idx+2}: Missing essential fields (question or answer)")
                     continue
 
-                # Create Intent (without intent_group_id)
+                # Create FAQ
                 is_active = usage_status == '사용' if usage_status else True
 
-                intent = Intent(
-                    intent_id=intent_id,
-                    intent_type=intent_type,
-                    intent_name=intent_name,
-                    representative_question=rep_question,
-                    display_question=display_q or intent_name,
+                faq = FAQ(
+                    question=display_q,
                     answer=answer,
-                    context=context,
                     usage_frequency=int(usage_freq) if usage_freq else 0,
                     question_count=int(q_count) if q_count else 0,
                     is_active=is_active,
@@ -154,18 +127,18 @@ def import_data():
                     created_at=datetime.utcnow(),
                     updated_at=datetime.utcnow()
                 )
-                session.add(intent)
+                session.add(faq)
                 session.flush()  # Get the ID
-                intents_created += 1
+                faqs_created += 1
 
-                # Create IntentTag relationship (optional - tag can be None)
+                # Create FaqTag relationship (optional - tag can be None)
                 if group_name and group_name in tags:
-                    intent_tag = IntentTag(
-                        intent_id=intent.id,
+                    faq_tag = FaqTag(
+                        faq_id=faq.id,
                         tag_id=tags[group_name],
                         created_at=datetime.utcnow()
                     )
-                    session.add(intent_tag)
+                    session.add(faq_tag)
 
                 # Create QuestionVariants
                 if questions:
@@ -173,7 +146,7 @@ def import_data():
                     for question_text in question_list:
                         if question_text:
                             variant = QuestionVariant(
-                                intent_id=intent.id,
+                                faq_id=faq.id,
                                 question_text=question_text,
                                 is_representative=(question_text == rep_question),
                                 created_at=datetime.utcnow()
@@ -184,7 +157,7 @@ def import_data():
                 # Commit every 100 rows
                 if (idx + 1) % 100 == 0:
                     session.commit()
-                    print(f"   📝 Progress: {idx + 1}/{len(df)} rows processed...")
+                    print(f"   Progress: {idx + 1}/{len(df)} rows processed...")
 
             except Exception as e:
                 errors.append(f"Row {idx+2}: {str(e)}")
@@ -193,45 +166,45 @@ def import_data():
         # Final commit
         session.commit()
 
-        print(f"\n✅ Import completed!")
-        print(f"   📊 Intents created: {intents_created}")
-        print(f"   📊 Question Variants created: {variants_created}")
+        print(f"\nImport completed!")
+        print(f"   FAQs created: {faqs_created}")
+        print(f"   Question Variants created: {variants_created}")
 
         if errors:
-            print(f"\n⚠️  Errors ({len(errors)}):")
+            print(f"\nErrors ({len(errors)}):")
             for error in errors[:10]:  # Show first 10 errors
                 print(f"   - {error}")
             if len(errors) > 10:
                 print(f"   ... and {len(errors) - 10} more errors")
 
         # Step 4: Verify import
-        print("\n4️⃣ Verifying import...")
+        print("\n4. Verifying import...")
         total_tags = session.query(Tag).count()
-        total_intents = session.query(Intent).count()
+        total_faqs = session.query(FAQ).count()
         total_variants = session.query(QuestionVariant).count()
-        total_intent_tags = session.query(IntentTag).count()
+        total_faq_tags = session.query(FaqTag).count()
 
-        print(f"   📊 Tags: {total_tags}")
-        print(f"   📊 Intents: {total_intents}")
-        print(f"   📊 Question Variants: {total_variants}")
-        print(f"   📊 Intent-Tag Relations: {total_intent_tags}")
+        print(f"   Tags: {total_tags}")
+        print(f"   FAQs: {total_faqs}")
+        print(f"   Question Variants: {total_variants}")
+        print(f"   FAQ-Tag Relations: {total_faq_tags}")
 
         # Show sample data
-        print("\n📋 Sample Tags:")
+        print("\nSample Tags:")
         tag_list = session.query(Tag).order_by(Tag.display_order).limit(5).all()
         for t in tag_list:
-            intent_count = session.query(IntentTag).filter_by(tag_id=t.id).count()
-            print(f"   - {t.name}: {intent_count} intents")
+            faq_count = session.query(FaqTag).filter_by(tag_id=t.id).count()
+            print(f"   - {t.name}: {faq_count} FAQs")
 
-        print("\n📋 Sample Intents (Top 5 by usage):")
-        intents = session.query(Intent).order_by(Intent.usage_frequency.desc()).limit(5).all()
-        for i in intents:
-            variant_count = session.query(QuestionVariant).filter_by(intent_id=i.id).count()
-            print(f"   - {i.display_question} ({i.usage_frequency} views, {variant_count} variants)")
+        print("\nSample FAQs (Top 5 by usage):")
+        faqs = session.query(FAQ).order_by(FAQ.usage_frequency.desc()).limit(5).all()
+        for f in faqs:
+            variant_count = session.query(QuestionVariant).filter_by(faq_id=f.id).count()
+            print(f"   - {f.question[:50]}... ({f.usage_frequency} views, {variant_count} variants)")
 
     except Exception as e:
         session.rollback()
-        print(f"\n❌ Import failed: {e}")
+        print(f"\nImport failed: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
@@ -246,5 +219,5 @@ if __name__ == "__main__":
     print("=" * 60)
     import_data()
     print("\n" + "=" * 60)
-    print("  ✅ Import Complete!")
+    print("  Import Complete!")
     print("=" * 60)

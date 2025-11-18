@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useIntent, useCreateIntent, useUpdateIntent } from '../../hooks/useIntents';
+import { useFaq, useCreateFaq, useUpdateFaq } from '../../hooks/useFaqs';
 import { useTags } from '../../hooks/useTags';
 import { Button, TagBadge } from '../../components/common';
-import type { IntentCreate, IntentUpdate, QuestionVariantCreate } from '../../types';
+import type { FaqCreate, FaqUpdate, QuestionVariantCreate } from '../../types';
 import styles from './IntentFormPage.module.css';
 
 export const IntentFormPage: React.FC = () => {
@@ -11,19 +11,14 @@ export const IntentFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
 
-  const { data: intent, isLoading: intentLoading } = useIntent(Number(id));
+  const { data: faq, isLoading: faqLoading } = useFaq(Number(id));
   const { data: tags } = useTags(true);
-  const createIntent = useCreateIntent();
-  const updateIntent = useUpdateIntent();
+  const createFaq = useCreateFaq();
+  const updateFaq = useUpdateFaq();
 
   const [formData, setFormData] = useState({
-    intent_id: '',
-    intent_name: '',
-    intent_type: '질의응답',
-    representative_question: '',
-    display_question: '',
+    question: '',
     answer: '',
-    context: '',
     is_active: true,
   });
 
@@ -32,29 +27,24 @@ export const IntentFormPage: React.FC = () => {
   const [newVariant, setNewVariant] = useState('');
 
   useEffect(() => {
-    if (intent) {
+    if (faq) {
       setFormData({
-        intent_id: intent.intent_id,
-        intent_name: intent.intent_name,
-        intent_type: intent.intent_type || '질의응답',
-        representative_question: intent.representative_question,
-        display_question: intent.display_question,
-        answer: intent.answer,
-        context: intent.context || '',
-        is_active: intent.is_active,
+        question: faq.question,
+        answer: faq.answer,
+        is_active: faq.is_active,
       });
-      setSelectedTagIds(intent.tags.map((t) => t.id));
+      setSelectedTagIds(faq.tags.map((t) => t.id));
       setVariants(
-        intent.question_variants.map((v) => ({
+        faq.question_variants.map((v) => ({
           question_text: v.question_text,
           is_representative: v.is_representative,
         }))
       );
     }
-  }, [intent]);
+  }, [faq]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
@@ -88,25 +78,20 @@ export const IntentFormPage: React.FC = () => {
 
     try {
       if (isEdit) {
-        const updateData: IntentUpdate = {
-          intent_name: formData.intent_name,
-          intent_type: formData.intent_type,
-          representative_question: formData.representative_question,
-          display_question: formData.display_question,
+        const updateData: FaqUpdate = {
+          question: formData.question,
           answer: formData.answer,
-          context: formData.context || null,
           is_active: formData.is_active,
           tag_ids: selectedTagIds,
         };
-        await updateIntent.mutateAsync({ id: Number(id), data: updateData });
+        await updateFaq.mutateAsync({ id: Number(id), data: updateData });
       } else {
-        const createData: IntentCreate = {
+        const createData: FaqCreate = {
           ...formData,
-          context: formData.context || null,
           tag_ids: selectedTagIds,
           question_variants: variants,
         };
-        await createIntent.mutateAsync(createData);
+        await createFaq.mutateAsync(createData);
       }
       navigate('/intents');
     } catch (error) {
@@ -114,7 +99,7 @@ export const IntentFormPage: React.FC = () => {
     }
   };
 
-  if (isEdit && intentLoading) {
+  if (isEdit && faqLoading) {
     return <div className={styles.loading}>로딩 중...</div>;
   }
 
@@ -127,66 +112,14 @@ export const IntentFormPage: React.FC = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label className={styles.label}>
-            의도 ID <span className={styles.required}>*</span>
+            질문 <span className={styles.required}>*</span>
           </label>
           <input
             type="text"
-            name="intent_id"
-            value={formData.intent_id}
+            name="question"
+            value={formData.question}
             onChange={handleChange}
-            placeholder="예: INT001"
-            required
-            disabled={isEdit}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            의도명 <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="text"
-            name="intent_name"
-            value={formData.intent_name}
-            onChange={handleChange}
-            placeholder="의도명을 입력하세요"
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>의도 유형</label>
-          <select name="intent_type" value={formData.intent_type} onChange={handleChange}>
-            <option value="질의응답">질의응답</option>
-            <option value="안내">안내</option>
-            <option value="문의">문의</option>
-          </select>
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            대표 질의문 <span className={styles.required}>*</span>
-          </label>
-          <textarea
-            name="representative_question"
-            value={formData.representative_question}
-            onChange={handleChange}
-            placeholder="대표 질의문을 입력하세요"
-            required
-            rows={3}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            화면 표시용 질의문 <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="text"
-            name="display_question"
-            value={formData.display_question}
-            onChange={handleChange}
-            placeholder="화면에 표시될 질의문"
+            placeholder="질문을 입력하세요"
             required
           />
         </div>
@@ -202,17 +135,6 @@ export const IntentFormPage: React.FC = () => {
             placeholder="답변 내용을 입력하세요"
             required
             rows={6}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>컨텍스트</label>
-          <input
-            type="text"
-            name="context"
-            value={formData.context}
-            onChange={handleChange}
-            placeholder="추가 태그/키워드"
           />
         </div>
 
@@ -289,9 +211,9 @@ export const IntentFormPage: React.FC = () => {
           </Button>
           <Button
             type="submit"
-            disabled={createIntent.isPending || updateIntent.isPending}
+            disabled={createFaq.isPending || updateFaq.isPending}
           >
-            {createIntent.isPending || updateIntent.isPending ? '저장 중...' : '저장'}
+            {createFaq.isPending || updateFaq.isPending ? '저장 중...' : '저장'}
           </Button>
         </div>
       </form>

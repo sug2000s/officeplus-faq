@@ -55,52 +55,40 @@ class QuestionVariantCreate(QuestionVariantBase):
 class QuestionVariantResponse(QuestionVariantBase):
     """Schema for QuestionVariant response."""
     id: int
-    intent_id: int
+    faq_id: int
     created_at: datetime
 
     class Config:
         from_attributes = True
 
 
-# ==================== Intent Schemas ====================
+# ==================== FAQ Schemas ====================
 
-class IntentBase(BaseModel):
-    """Base schema for Intent."""
-    intent_id: str = Field(..., min_length=1, max_length=50)
-    intent_type: Optional[str] = Field(None, max_length=50)
-    intent_name: str = Field(..., min_length=1, max_length=200)
-    representative_question: str = Field(..., min_length=1)
-    display_question: str = Field(..., min_length=1, max_length=500)
+class FaqBase(BaseModel):
+    """Base schema for FAQ."""
+    question: str = Field(..., min_length=1, max_length=500)
     answer: str = Field(..., min_length=1)
-    context: Optional[str] = Field(None, max_length=500)
     is_active: bool = True
 
 
-class IntentCreate(IntentBase):
-    """Schema for creating an Intent."""
+class FaqCreate(FaqBase):
+    """Schema for creating a FAQ."""
     tag_ids: Optional[List[int]] = []
     question_variants: Optional[List[QuestionVariantCreate]] = []
 
 
-class IntentUpdate(BaseModel):
-    """Schema for updating an Intent."""
-    intent_type: Optional[str] = Field(None, max_length=50)
-    intent_name: Optional[str] = Field(None, min_length=1, max_length=200)
-    representative_question: Optional[str] = None
-    display_question: Optional[str] = Field(None, max_length=500)
+class FaqUpdate(BaseModel):
+    """Schema for updating a FAQ."""
+    question: Optional[str] = Field(None, min_length=1, max_length=500)
     answer: Optional[str] = None
-    context: Optional[str] = Field(None, max_length=500)
     is_active: Optional[bool] = None
     tag_ids: Optional[List[int]] = None
 
 
-class IntentListResponse(BaseModel):
-    """Schema for Intent list response (summary)."""
+class FaqListResponse(BaseModel):
+    """Schema for FAQ list response (summary)."""
     id: int
-    intent_id: str
-    intent_type: Optional[str]
-    intent_name: str
-    display_question: str
+    question: str
     usage_frequency: int
     question_count: int
     is_active: bool
@@ -112,11 +100,9 @@ class IntentListResponse(BaseModel):
         from_attributes = True
 
 
-class IntentDetailResponse(IntentListResponse):
-    """Schema for Intent detail response (full)."""
-    representative_question: str
+class FaqDetailResponse(FaqListResponse):
+    """Schema for FAQ detail response (full)."""
     answer: str
-    context: Optional[str]
     created_by: Optional[str]
     updated_by: Optional[str]
     question_variants: List[QuestionVariantResponse] = []

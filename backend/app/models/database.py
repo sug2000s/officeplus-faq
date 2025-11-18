@@ -23,41 +23,36 @@ class Tag(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False, comment="수정일시")
 
     # Relationships (다대다)
-    intents = relationship("Intent", secondary="intent_tags", back_populates="tags")
+    faqs = relationship("FAQ", secondary="faq_tags", back_populates="tags")
 
     def __repr__(self):
         return f"<Tag(id={self.id}, name={self.name})>"
 
 
-class IntentTag(Base):
-    """Intent-Tag 연결 테이블 (다대다 관계)"""
-    __tablename__ = "intent_tags"
+class FaqTag(Base):
+    """FAQ-Tag 연결 테이블 (다대다 관계)"""
+    __tablename__ = "faq_tags"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    intent_id = Column(Integer, ForeignKey("intents.id", ondelete="CASCADE"), nullable=False, index=True, comment="의도 ID")
+    faq_id = Column(Integer, ForeignKey("faqs.id", ondelete="CASCADE"), nullable=False, index=True, comment="FAQ ID")
     tag_id = Column(Integer, ForeignKey("tags.id", ondelete="CASCADE"), nullable=False, index=True, comment="태그 ID")
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, comment="생성일시")
 
     __table_args__ = (
-        UniqueConstraint('intent_id', 'tag_id', name='uq_intent_tag'),
+        UniqueConstraint('faq_id', 'tag_id', name='uq_faq_tag'),
     )
 
     def __repr__(self):
-        return f"<IntentTag(intent_id={self.intent_id}, tag_id={self.tag_id})>"
+        return f"<FaqTag(faq_id={self.faq_id}, tag_id={self.tag_id})>"
 
 
-class Intent(Base):
-    """의도 (FAQ 본문) 모델"""
-    __tablename__ = "intents"
+class FAQ(Base):
+    """FAQ 모델"""
+    __tablename__ = "faqs"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    intent_id = Column(String(50), nullable=False, unique=True, index=True, comment="CSV의 의도ID (예: INTacb567...)")
-    intent_type = Column(String(50), nullable=True, comment="의도 유형 (예: 질의응답)")
-    intent_name = Column(String(200), nullable=False, index=True, comment="의도명")
-    representative_question = Column(Text, nullable=False, comment="대표 질의문")
-    display_question = Column(String(500), nullable=False, comment="화면 표시용 질의문")
+    question = Column(String(500), nullable=False, index=True, comment="질문")
     answer = Column(Text, nullable=False, comment="답변 내용")
-    context = Column(String(500), nullable=True, comment="컨텍스트 (추가 태그/키워드)")
     usage_frequency = Column(Integer, default=0, nullable=False, index=True, comment="사용 빈도")
     question_count = Column(Integer, default=0, nullable=False, comment="질의문 갯수")
     is_active = Column(Boolean, default=True, nullable=False, index=True, comment="활성화 여부")
@@ -67,11 +62,11 @@ class Intent(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False, comment="수정일시")
 
     # Relationships
-    tags = relationship("Tag", secondary="intent_tags", back_populates="intents")
-    question_variants = relationship("QuestionVariant", back_populates="intent", cascade="all, delete-orphan")
+    tags = relationship("Tag", secondary="faq_tags", back_populates="faqs")
+    question_variants = relationship("QuestionVariant", back_populates="faq", cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<Intent(id={self.id}, intent_id={self.intent_id}, name={self.intent_name})>"
+        return f"<FAQ(id={self.id}, question={self.question[:30]}...)>"
 
 
 class QuestionVariant(Base):
@@ -79,16 +74,16 @@ class QuestionVariant(Base):
     __tablename__ = "question_variants"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    intent_id = Column(Integer, ForeignKey("intents.id", ondelete="CASCADE"), nullable=False, index=True, comment="의도 ID")
+    faq_id = Column(Integer, ForeignKey("faqs.id", ondelete="CASCADE"), nullable=False, index=True, comment="FAQ ID")
     question_text = Column(String(500), nullable=False, index=True, comment="질문 텍스트")
     is_representative = Column(Boolean, default=False, nullable=False, comment="대표 질의문 여부")
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, comment="생성일시")
 
     # Relationships
-    intent = relationship("Intent", back_populates="question_variants")
+    faq = relationship("FAQ", back_populates="question_variants")
 
     def __repr__(self):
-        return f"<QuestionVariant(id={self.id}, intent_id={self.intent_id}, text={self.question_text[:30]}...)>"
+        return f"<QuestionVariant(id={self.id}, faq_id={self.faq_id}, text={self.question_text[:30]}...)>"
 
 
 class AdminUser(Base):

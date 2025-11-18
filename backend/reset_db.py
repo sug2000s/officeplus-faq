@@ -11,9 +11,11 @@ def reset_database():
     with engine.connect() as conn:
         # Drop all tables in correct order (respecting foreign keys)
         tables_to_drop = [
-            'intent_tags',
+            'faq_tags',
+            'intent_tags',  # Keep for backward compatibility
             'question_variants',
-            'intents',
+            'faqs',
+            'intents',  # Keep for backward compatibility
             'tags',
             'admin_users',
             'alembic_version'

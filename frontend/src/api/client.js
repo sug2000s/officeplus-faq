@@ -30,39 +30,39 @@ export const tagApi = {
         return data;
     },
 };
-// Intent API
-export const intentApi = {
+// FAQ API
+export const faqApi = {
     list: async (filters = {}) => {
-        const { data } = await api.get('/intents', {
+        const { data } = await api.get('/faqs', {
             params: filters,
         });
         return data;
     },
     get: async (id) => {
-        const { data } = await api.get(`/intents/${id}`);
+        const { data } = await api.get(`/faqs/${id}`);
         return data;
     },
-    create: async (intentData) => {
-        const { data } = await api.post('/intents', intentData);
+    create: async (faqData) => {
+        const { data } = await api.post('/faqs', faqData);
         return data;
     },
-    update: async (id, intentData) => {
-        const { data } = await api.put(`/intents/${id}`, intentData);
+    update: async (id, faqData) => {
+        const { data } = await api.put(`/faqs/${id}`, faqData);
         return data;
     },
     delete: async (id) => {
-        const { data } = await api.delete(`/intents/${id}`);
+        const { data } = await api.delete(`/faqs/${id}`);
         return data;
     },
 };
 // Question Variant API
 export const variantApi = {
-    list: async (intentId) => {
-        const { data } = await api.get(`/intents/${intentId}/variants`);
+    list: async (faqId) => {
+        const { data } = await api.get(`/faqs/${faqId}/variants`);
         return data;
     },
-    create: async (intentId, variantData) => {
-        const { data } = await api.post(`/intents/${intentId}/variants`, variantData);
+    create: async (faqId, variantData) => {
+        const { data } = await api.post(`/faqs/${faqId}/variants`, variantData);
         return data;
     },
     delete: async (variantId) => {

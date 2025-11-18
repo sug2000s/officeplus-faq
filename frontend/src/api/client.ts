@@ -3,15 +3,15 @@ import type {
   Tag,
   TagCreate,
   TagUpdate,
-  IntentListItem,
-  IntentDetail,
-  IntentCreate,
-  IntentUpdate,
+  FaqListItem,
+  FaqDetail,
+  FaqCreate,
+  FaqUpdate,
   QuestionVariant,
   QuestionVariantCreate,
   PaginatedResponse,
   DeleteResponse,
-  IntentFilters,
+  FaqFilters,
 } from '../types';
 
 const API_BASE_URL = '/p/faq/apis';
@@ -52,45 +52,45 @@ export const tagApi = {
   },
 };
 
-// Intent API
-export const intentApi = {
-  list: async (filters: IntentFilters = {}): Promise<PaginatedResponse<IntentListItem>> => {
-    const { data } = await api.get<PaginatedResponse<IntentListItem>>('/intents', {
+// FAQ API
+export const faqApi = {
+  list: async (filters: FaqFilters = {}): Promise<PaginatedResponse<FaqListItem>> => {
+    const { data } = await api.get<PaginatedResponse<FaqListItem>>('/faqs', {
       params: filters,
     });
     return data;
   },
 
-  get: async (id: number): Promise<IntentDetail> => {
-    const { data } = await api.get<IntentDetail>(`/intents/${id}`);
+  get: async (id: number): Promise<FaqDetail> => {
+    const { data } = await api.get<FaqDetail>(`/faqs/${id}`);
     return data;
   },
 
-  create: async (intentData: IntentCreate): Promise<IntentDetail> => {
-    const { data } = await api.post<IntentDetail>('/intents', intentData);
+  create: async (faqData: FaqCreate): Promise<FaqDetail> => {
+    const { data } = await api.post<FaqDetail>('/faqs', faqData);
     return data;
   },
 
-  update: async (id: number, intentData: IntentUpdate): Promise<IntentDetail> => {
-    const { data } = await api.put<IntentDetail>(`/intents/${id}`, intentData);
+  update: async (id: number, faqData: FaqUpdate): Promise<FaqDetail> => {
+    const { data } = await api.put<FaqDetail>(`/faqs/${id}`, faqData);
     return data;
   },
 
   delete: async (id: number): Promise<DeleteResponse> => {
-    const { data } = await api.delete<DeleteResponse>(`/intents/${id}`);
+    const { data } = await api.delete<DeleteResponse>(`/faqs/${id}`);
     return data;
   },
 };
 
 // Question Variant API
 export const variantApi = {
-  list: async (intentId: number): Promise<QuestionVariant[]> => {
-    const { data } = await api.get<QuestionVariant[]>(`/intents/${intentId}/variants`);
+  list: async (faqId: number): Promise<QuestionVariant[]> => {
+    const { data } = await api.get<QuestionVariant[]>(`/faqs/${faqId}/variants`);
     return data;
   },
 
-  create: async (intentId: number, variantData: QuestionVariantCreate): Promise<QuestionVariant> => {
-    const { data } = await api.post<QuestionVariant>(`/intents/${intentId}/variants`, variantData);
+  create: async (faqId: number, variantData: QuestionVariantCreate): Promise<QuestionVariant> => {
+    const { data } = await api.post<QuestionVariant>(`/faqs/${faqId}/variants`, variantData);
     return data;
   },
 

@@ -12,7 +12,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.future import select
 
 from app.models.user import UserModel
-from app.models.database import Tag, Intent, QuestionVariant, IntentTag
+from app.models.database import Tag, FAQ, QuestionVariant, FaqTag
 from app.core.redis import redis_connection_pool as redis_pool
 from app.utils.auth import is_valid
 from app.utils.middleware import get_user_info_from_request
@@ -20,7 +20,7 @@ from app.config import settings
 from app.db.session import get_db
 from app.api.schemas import (
     TagCreate, TagUpdate, TagResponse,
-    IntentCreate, IntentUpdate, IntentListResponse, IntentDetailResponse,
+    FaqCreate, FaqUpdate, FaqListResponse, FaqDetailResponse,
     QuestionVariantCreate, QuestionVariantResponse,
     PaginatedResponse,
 )
@@ -309,10 +309,10 @@ async def delete_tag(
     return {"success": True, "message": f"Tag {tag_id} deleted"}
 
 
-# ==================== Intent (FAQ) CRUD Endpoints ====================
+# ==================== FAQ CRUD Endpoints ====================
 
-@router.get("/intents", response_model=PaginatedResponse)
-async def list_intents(
+@router.get("/faqs", response_model=PaginatedResponse)
+async def list_faqs(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     search: Optional[str] = Query(None, description="Search in question and answer"),
@@ -320,36 +320,34 @@ async def list_intents(
     is_active: Optional[bool] = Query(None, description="Filter by active status"),
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
-    """List intents with pagination and filtering."""
+    """List FAQs with pagination and filtering."""
     # Base query with eager loading
-    query = select(Intent).options(selectinload(Intent.tags))
-    count_query = select(func.count(Intent.id))
+    query = select(FAQ).options(selectinload(FAQ.tags))
+    count_query = select(func.count(FAQ.id))
 
     # Apply filters
     if search:
         search_pattern = f"%{search}%"
         query = query.where(
             or_(
-                Intent.display_question.ilike(search_pattern),
-                Intent.answer.ilike(search_pattern),
-                Intent.intent_name.ilike(search_pattern),
+                FAQ.question.ilike(search_pattern),
+                FAQ.answer.ilike(search_pattern),
             )
         )
         count_query = count_query.where(
             or_(
-                Intent.display_question.ilike(search_pattern),
-                Intent.answer.ilike(search_pattern),
-                Intent.intent_name.ilike(search_pattern),
+                FAQ.question.ilike(search_pattern),
+                FAQ.answer.ilike(search_pattern),
             )
         )
 
     if tag_id:
-        query = query.join(IntentTag).where(IntentTag.tag_id == tag_id)
-        count_query = count_query.join(IntentTag).where(IntentTag.tag_id == tag_id)
+        query = query.join(FaqTag).where(FaqTag.tag_id == tag_id)
+        count_query = count_query.join(FaqTag).where(FaqTag.tag_id == tag_id)
 
     if is_active is not None:
-        query = query.where(Intent.is_active == is_active)
-        count_query = count_query.where(Intent.is_active == is_active)
+        query = query.where(FAQ.is_active == is_active)
+        count_query = count_query.where(FAQ.is_active == is_active)
 
     # Get total count
     total_result = await db.execute(count_query)
@@ -357,13 +355,13 @@ async def list_intents(
 
     # Apply pagination
     offset = (page - 1) * page_size
-    query = query.order_by(Intent.updated_at.desc()).offset(offset).limit(page_size)
+    query = query.order_by(FAQ.updated_at.desc()).offset(offset).limit(page_size)
 
     result = await db.execute(query)
     items = result.scalars().unique().all()
 
     return {
-        "items": [IntentListResponse.model_validate(item) for item in items],
+        "items": [FaqListResponse.model_validate(item) for item in items],
         "total": total,
         "page": page,
         "page_size": page_size,
@@ -371,181 +369,176 @@ async def list_intents(
     }
 
 
-@router.get("/intents/{intent_id}", response_model=IntentDetailResponse)
-async def get_intent(
-    intent_id: int,
+@router.get("/faqs/{faq_id}", response_model=FaqDetailResponse)
+async def get_faq(
+    faq_id: int,
     db: AsyncSession = Depends(get_db),
-) -> Intent:
-    """Get a single intent with all related data."""
+) -> FAQ:
+    """Get a single FAQ with all related data."""
     result = await db.execute(
-        select(Intent)
-        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
-        .where(Intent.id == intent_id)
+        select(FAQ)
+        .options(selectinload(FAQ.tags), selectinload(FAQ.question_variants))
+        .where(FAQ.id == faq_id)
     )
-    intent = result.scalar_one_or_none()
-    if not intent:
-        raise HTTPException(status_code=404, detail="Intent not found")
-    return intent
+    faq = result.scalar_one_or_none()
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
+    return faq
 
 
-@router.post("/intents", response_model=IntentDetailResponse, status_code=201)
-async def create_intent(
-    intent_data: IntentCreate,
+@router.post("/faqs", response_model=FaqDetailResponse, status_code=201)
+async def create_faq(
+    faq_data: FaqCreate,
     request: Request,
     db: AsyncSession = Depends(get_db),
-) -> Intent:
-    """Create a new intent."""
-    # Check for duplicate intent_id
-    existing = await db.execute(select(Intent).where(Intent.intent_id == intent_data.intent_id))
-    if existing.scalar_one_or_none():
-        raise HTTPException(status_code=400, detail="Intent ID already exists")
-
+) -> FAQ:
+    """Create a new FAQ."""
     # Get user info
     user_info = get_user_info_from_request(request)
     user_id = getattr(user_info, "emp_no", None) if user_info else None
 
-    # Create intent
-    intent_dict = intent_data.model_dump(exclude={"tag_ids", "question_variants"})
-    intent_dict["created_by"] = user_id
-    intent_dict["updated_by"] = user_id
+    # Create FAQ
+    faq_dict = faq_data.model_dump(exclude={"tag_ids", "question_variants"})
+    faq_dict["created_by"] = user_id
+    faq_dict["updated_by"] = user_id
 
-    intent = Intent(**intent_dict)
-    db.add(intent)
+    faq = FAQ(**faq_dict)
+    db.add(faq)
     await db.flush()
 
     # Add tags
-    if intent_data.tag_ids:
-        for tag_id in intent_data.tag_ids:
+    if faq_data.tag_ids:
+        for tag_id in faq_data.tag_ids:
             tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
             if tag_result.scalar_one_or_none():
-                intent_tag = IntentTag(intent_id=intent.id, tag_id=tag_id)
-                db.add(intent_tag)
+                faq_tag = FaqTag(faq_id=faq.id, tag_id=tag_id)
+                db.add(faq_tag)
 
     # Add question variants
-    if intent_data.question_variants:
-        for variant in intent_data.question_variants:
-            qv = QuestionVariant(intent_id=intent.id, **variant.model_dump())
+    if faq_data.question_variants:
+        for variant in faq_data.question_variants:
+            qv = QuestionVariant(faq_id=faq.id, **variant.model_dump())
             db.add(qv)
-        intent.question_count = len(intent_data.question_variants)
+        faq.question_count = len(faq_data.question_variants)
 
     await db.commit()
 
     # Reload with relationships
     result = await db.execute(
-        select(Intent)
-        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
-        .where(Intent.id == intent.id)
+        select(FAQ)
+        .options(selectinload(FAQ.tags), selectinload(FAQ.question_variants))
+        .where(FAQ.id == faq.id)
     )
     return result.scalar_one()
 
 
-@router.put("/intents/{intent_id}", response_model=IntentDetailResponse)
-async def update_intent(
-    intent_id: int,
-    intent_data: IntentUpdate,
+@router.put("/faqs/{faq_id}", response_model=FaqDetailResponse)
+async def update_faq(
+    faq_id: int,
+    faq_data: FaqUpdate,
     request: Request,
     db: AsyncSession = Depends(get_db),
-) -> Intent:
-    """Update an intent."""
+) -> FAQ:
+    """Update a FAQ."""
     result = await db.execute(
-        select(Intent)
-        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
-        .where(Intent.id == intent_id)
+        select(FAQ)
+        .options(selectinload(FAQ.tags), selectinload(FAQ.question_variants))
+        .where(FAQ.id == faq_id)
     )
-    intent = result.scalar_one_or_none()
-    if not intent:
-        raise HTTPException(status_code=404, detail="Intent not found")
+    faq = result.scalar_one_or_none()
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
 
     # Get user info
     user_info = get_user_info_from_request(request)
     user_id = getattr(user_info, "emp_no", None) if user_info else None
 
     # Update basic fields
-    update_data = intent_data.model_dump(exclude_unset=True, exclude={"tag_ids"})
+    update_data = faq_data.model_dump(exclude_unset=True, exclude={"tag_ids"})
     for key, value in update_data.items():
-        setattr(intent, key, value)
-    intent.updated_by = user_id
+        setattr(faq, key, value)
+    faq.updated_by = user_id
 
     # Update tags if provided
-    if intent_data.tag_ids is not None:
+    if faq_data.tag_ids is not None:
         # Remove existing tags
         await db.execute(
-            text("DELETE FROM intent_tags WHERE intent_id = :intent_id"),
-            {"intent_id": intent_id}
+            text("DELETE FROM faq_tags WHERE faq_id = :faq_id"),
+            {"faq_id": faq_id}
         )
         # Add new tags
-        for tag_id in intent_data.tag_ids:
+        for tag_id in faq_data.tag_ids:
             tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
             if tag_result.scalar_one_or_none():
-                intent_tag = IntentTag(intent_id=intent.id, tag_id=tag_id)
-                db.add(intent_tag)
+                faq_tag = FaqTag(faq_id=faq.id, tag_id=tag_id)
+                db.add(faq_tag)
 
     await db.commit()
 
     # Reload with relationships
     result = await db.execute(
-        select(Intent)
-        .options(selectinload(Intent.tags), selectinload(Intent.question_variants))
-        .where(Intent.id == intent_id)
+        select(FAQ)
+        .options(selectinload(FAQ.tags), selectinload(FAQ.question_variants))
+        .where(FAQ.id == faq_id)
     )
     return result.scalar_one()
 
 
-@router.delete("/intents/{intent_id}")
-async def delete_intent(
-    intent_id: int,
+@router.delete("/faqs/{faq_id}")
+async def delete_faq(
+    faq_id: int,
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
-    """Delete an intent."""
-    result = await db.execute(select(Intent).where(Intent.id == intent_id))
-    intent = result.scalar_one_or_none()
-    if not intent:
-        raise HTTPException(status_code=404, detail="Intent not found")
+    """Delete a FAQ."""
+    result = await db.execute(select(FAQ).where(FAQ.id == faq_id))
+    faq = result.scalar_one_or_none()
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
 
-    await db.delete(intent)
+    await db.delete(faq)
     await db.commit()
-    return {"success": True, "message": f"Intent {intent_id} deleted"}
+    return {"success": True, "message": f"FAQ {faq_id} deleted"}
 
 
 # ==================== Question Variant Endpoints ====================
 
-@router.get("/intents/{intent_id}/variants", response_model=List[QuestionVariantResponse])
+@router.get("/faqs/{faq_id}/variants", response_model=List[QuestionVariantResponse])
 async def list_variants(
-    intent_id: int,
+    faq_id: int,
     db: AsyncSession = Depends(get_db),
 ) -> List[QuestionVariant]:
-    """List all question variants for an intent."""
-    # Check intent exists
-    intent_result = await db.execute(select(Intent).where(Intent.id == intent_id))
-    if not intent_result.scalar_one_or_none():
-        raise HTTPException(status_code=404, detail="Intent not found")
+    """List all question variants for a FAQ."""
+    # Check FAQ exists
+    faq_result = await db.execute(select(FAQ).where(FAQ.id == faq_id))
+    if not faq_result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="FAQ not found")
 
     result = await db.execute(
         select(QuestionVariant)
-        .where(QuestionVariant.intent_id == intent_id)
+        .where(QuestionVariant.faq_id == faq_id)
         .order_by(QuestionVariant.is_representative.desc(), QuestionVariant.created_at)
     )
     return result.scalars().all()
 
 
-@router.post("/intents/{intent_id}/variants", response_model=QuestionVariantResponse, status_code=201)
+@router.post("/faqs/{faq_id}/variants", response_model=QuestionVariantResponse, status_code=201)
 async def create_variant(
-    intent_id: int,
+    faq_id: int,
     variant_data: QuestionVariantCreate,
     db: AsyncSession = Depends(get_db),
 ) -> QuestionVariant:
-    """Add a question variant to an intent."""
-    # Check intent exists
-    intent_result = await db.execute(select(Intent).where(Intent.id == intent_id))
-    intent = intent_result.scalar_one_or_none()
-    if not intent:
-        raise HTTPException(status_code=404, detail="Intent not found")
+    """Add a question variant to a FAQ."""
+    # Check FAQ exists
+    faq_result = await db.execute(select(FAQ).where(FAQ.id == faq_id))
+    faq = faq_result.scalar_one_or_none()
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
 
-    variant = QuestionVariant(intent_id=intent_id, **variant_data.model_dump())
+    variant = QuestionVariant(faq_id=faq_id, **variant_data.model_dump())
     db.add(variant)
 
     # Update question count
-    intent.question_count += 1
+    faq.question_count += 1
 
     await db.commit()
     await db.refresh(variant)
@@ -564,10 +557,10 @@ async def delete_variant(
         raise HTTPException(status_code=404, detail="Variant not found")
 
     # Update question count
-    intent_result = await db.execute(select(Intent).where(Intent.id == variant.intent_id))
-    intent = intent_result.scalar_one_or_none()
-    if intent:
-        intent.question_count = max(0, intent.question_count - 1)
+    faq_result = await db.execute(select(FAQ).where(FAQ.id == variant.faq_id))
+    faq = faq_result.scalar_one_or_none()
+    if faq:
+        faq.question_count = max(0, faq.question_count - 1)
 
     await db.delete(variant)
     await db.commit()
@@ -581,15 +574,15 @@ async def get_stats_overview(
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
     """Get overview statistics for the dashboard."""
-    # Count intents
-    intent_count = await db.execute(select(func.count(Intent.id)))
-    total_intents = intent_count.scalar()
+    # Count FAQs
+    faq_count = await db.execute(select(func.count(FAQ.id)))
+    total_faqs = faq_count.scalar()
 
-    # Count active intents
-    active_intent_count = await db.execute(
-        select(func.count(Intent.id)).where(Intent.is_active == True)
+    # Count active FAQs
+    active_faq_count = await db.execute(
+        select(func.count(FAQ.id)).where(FAQ.is_active == True)
     )
-    active_intents = active_intent_count.scalar()
+    active_faqs = active_faq_count.scalar()
 
     # Count tags
     tag_count = await db.execute(select(func.count(Tag.id)))
@@ -600,8 +593,8 @@ async def get_stats_overview(
     total_variants = variant_count.scalar()
 
     return {
-        "total_intents": total_intents,
-        "active_intents": active_intents,
+        "total_faqs": total_faqs,
+        "active_faqs": active_faqs,
         "total_tags": total_tags,
         "total_variants": total_variants,
     }
