@@ -69,8 +69,6 @@ class Intent(Base):
     # Relationships
     tags = relationship("Tag", secondary="intent_tags", back_populates="intents")
     question_variants = relationship("QuestionVariant", back_populates="intent", cascade="all, delete-orphan")
-    feedbacks = relationship("FAQFeedback", back_populates="intent", cascade="all, delete-orphan")
-    search_logs = relationship("SearchLog", back_populates="clicked_intent")
 
     def __repr__(self):
         return f"<Intent(id={self.id}, intent_id={self.intent_id}, name={self.intent_name})>"
@@ -91,42 +89,6 @@ class QuestionVariant(Base):
 
     def __repr__(self):
         return f"<QuestionVariant(id={self.id}, intent_id={self.intent_id}, text={self.question_text[:30]}...)>"
-
-
-class FAQFeedback(Base):
-    """FAQ 피드백 모델"""
-    __tablename__ = "faq_feedback"
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    intent_id = Column(Integer, ForeignKey("intents.id", ondelete="CASCADE"), nullable=False, index=True, comment="의도 ID")
-    user_id = Column(String(50), nullable=True, comment="사용자 사번")
-    is_helpful = Column(Boolean, nullable=False, comment="도움 여부 (True: 도움됨, False: 도움안됨)")
-    comment = Column(Text, nullable=True, comment="추가 의견")
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, comment="생성일시")
-
-    # Relationships
-    intent = relationship("Intent", back_populates="feedbacks")
-
-    def __repr__(self):
-        return f"<FAQFeedback(id={self.id}, intent_id={self.intent_id}, is_helpful={self.is_helpful})>"
-
-
-class SearchLog(Base):
-    """검색 로그 모델"""
-    __tablename__ = "search_logs"
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_id = Column(String(50), nullable=True, comment="사용자 사번")
-    search_query = Column(String(500), nullable=False, comment="검색어")
-    result_count = Column(Integer, default=0, nullable=False, comment="검색 결과 수")
-    clicked_intent_id = Column(Integer, ForeignKey("intents.id", ondelete="SET NULL"), nullable=True, comment="클릭한 의도 ID")
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, comment="생성일시")
-
-    # Relationships
-    clicked_intent = relationship("Intent", back_populates="search_logs")
-
-    def __repr__(self):
-        return f"<SearchLog(id={self.id}, query={self.search_query}, results={self.result_count})>"
 
 
 class AdminUser(Base):

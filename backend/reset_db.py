@@ -13,8 +13,6 @@ def reset_database():
         tables_to_drop = [
             'intent_tags',
             'question_variants',
-            'faq_feedback',
-            'search_logs',
             'intents',
             'tags',
             'admin_users',

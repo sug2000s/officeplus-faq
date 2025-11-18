@@ -5,8 +5,6 @@ from .database import (
     IntentTag,
     Intent,
     QuestionVariant,
-    FAQFeedback,
-    SearchLog,
     AdminUser,
 )
 from .user import UserModel
@@ -17,8 +15,6 @@ __all__ = [
     "IntentTag",
     "Intent",
     "QuestionVariant",
-    "FAQFeedback",
-    "SearchLog",
     "AdminUser",
     "UserModel",
 ]
