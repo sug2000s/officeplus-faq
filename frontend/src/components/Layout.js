@@ -1,0 +1,6 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { NavLink } from "react-router-dom";
+const navLinkClass = "px-4 py-2 rounded-md text-sm font-medium transition hover:bg-slate-200";
+export function Layout({ children }) {
+    return (_jsxs("div", { className: "min-h-screen bg-slate-100 text-slate-900", children: [_jsx("header", { className: "bg-white shadow-sm", children: _jsxs("div", { className: "mx-auto flex max-w-5xl items-center justify-between px-6 py-4", children: [_jsx("div", { className: "text-lg font-semibold text-slate-800", children: "OfficePlus FAQ" }), _jsxs("nav", { className: "flex gap-2", children: [_jsx(NavLink, { to: "/", className: ({ isActive }) => `${navLinkClass} ${isActive ? "bg-slate-900 text-white" : ""}`, children: "\uB300\uC2DC\uBCF4\uB4DC" }), _jsx(NavLink, { to: "/faq", className: ({ isActive }) => `${navLinkClass} ${isActive ? "bg-slate-900 text-white" : ""}`, children: "FAQ" }), _jsx(NavLink, { to: "/sessions", className: ({ isActive }) => `${navLinkClass} ${isActive ? "bg-slate-900 text-white" : ""}`, children: "Redis \uC138\uC158" }), _jsx(NavLink, { to: "/status", className: ({ isActive }) => `${navLinkClass} ${isActive ? "bg-slate-900 text-white" : ""}`, children: "\uC2DC\uC2A4\uD15C \uC0C1\uD0DC" })] })] }) }), _jsx("main", { className: "mx-auto max-w-5xl px-6 py-8", children: children })] }));
+}
