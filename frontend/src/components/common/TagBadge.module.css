@@ -1,0 +1,28 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-family: var(--font-regular);
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  background: rgba(16, 130, 148, 0.1);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+.removeBtn {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.removeBtn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}

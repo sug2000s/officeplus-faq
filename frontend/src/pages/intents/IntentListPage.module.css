@@ -1,0 +1,127 @@
+.container {
+  padding: var(--spacing-lg);
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+}
+
+.title {
+  font-family: var(--font-bold);
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-dark);
+}
+
+.filters {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.tagFilter {
+  width: 150px;
+  height: var(--input-height);
+  padding: 0 10px;
+  font-size: var(--font-size-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-white);
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.table th {
+  font-family: var(--font-medium);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-gray);
+}
+
+.table td {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.table tbody tr:hover {
+  background: var(--color-bg-light);
+}
+
+.link {
+  color: var(--color-primary);
+  font-family: var(--font-medium);
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.question {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-sm);
+}
+
+.status.active {
+  color: var(--color-success);
+  background: rgba(52, 188, 111, 0.1);
+}
+
+.status.inactive {
+  color: var(--color-text-secondary);
+  background: var(--color-bg-gray);
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+}
+
+.empty {
+  text-align: center;
+  padding: var(--spacing-xl) !important;
+  color: var(--color-text-secondary);
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+.error {
+  color: var(--color-error);
+}
