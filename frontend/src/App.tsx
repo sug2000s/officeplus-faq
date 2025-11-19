@@ -1,19 +1,19 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from './components/layout';
-import { IntentListPage, IntentFormPage, IntentDetailPage } from './pages/intents';
+import { FAQListPage, FAQFormPage, FAQDetailPage } from './pages/faqs';
 import { TagListPage } from './pages/tags';
 
 function App() {
   return (
     <MainLayout>
       <Routes>
-        <Route path="/" element={<Navigate to="/intents" replace />} />
-        <Route path="/intents" element={<IntentListPage />} />
-        <Route path="/intents/new" element={<IntentFormPage />} />
-        <Route path="/intents/:id" element={<IntentDetailPage />} />
-        <Route path="/intents/:id/edit" element={<IntentFormPage />} />
+        <Route path="/" element={<Navigate to="/faqs" replace />} />
+        <Route path="/faqs" element={<FAQListPage />} />
+        <Route path="/faqs/new" element={<FAQFormPage />} />
+        <Route path="/faqs/:id" element={<FAQDetailPage />} />
+        <Route path="/faqs/:id/edit" element={<FAQFormPage />} />
         <Route path="/tags" element={<TagListPage />} />
-        <Route path="*" element={<Navigate to="/intents" replace />} />
+        <Route path="*" element={<Navigate to="/faqs" replace />} />
       </Routes>
     </MainLayout>
   );

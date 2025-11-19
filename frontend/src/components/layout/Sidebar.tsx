@@ -8,7 +8,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { path: '/intents', label: 'FAQ 관리' },
+  { path: '/faqs', label: 'FAQ 관리' },
   { path: '/tags', label: '태그 관리' },
 ];
 

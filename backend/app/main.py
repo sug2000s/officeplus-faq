@@ -1,41 +1,9 @@
 """Entry point for the FastAPI backend service."""
 import logging
-import os
 from contextlib import asynccontextmanager
-from pathlib import Path
 from typing import Optional
 
-from dotenv import load_dotenv
 from fastapi import FastAPI
-
-
-def load_environment():
-    """Load the base .env and APP_ENV-specific overrides (e.g. .env.local)."""
-    backend_dir = Path(__file__).resolve().parent.parent
-    default_env = backend_dir / ".env"
-
-    if default_env.exists():
-        load_dotenv(default_env, override=False)
-
-    app_env = (os.getenv("APP_ENV") or os.getenv("ENVIRONMENT") or "").strip().lower()
-    candidate_files = []
-
-    if app_env:
-        candidate_files.append(backend_dir / f".env.{app_env}")
-
-    # Ensure legacy .env.local naming is honored for local development.
-    if not app_env or app_env == "local":
-        local_env = backend_dir / ".env.local"
-        if local_env not in candidate_files:
-            candidate_files.append(local_env)
-
-    for env_file in candidate_files:
-        if env_file.exists():
-            load_dotenv(env_file, override=True)
-            break
-
-
-load_environment()
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
