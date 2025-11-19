@@ -24,7 +24,11 @@
 }
 
 .tagFilter {
-  width: 150px;
+  width: 200px;
+}
+
+.statusFilter {
+  width: 120px;
   height: var(--input-height);
   padding: 0 10px;
   font-size: var(--font-size-md);

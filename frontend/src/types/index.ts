@@ -64,6 +64,7 @@ export interface FaqCreate {
   answer: string;
   is_active?: boolean;
   tag_ids?: number[];
+  new_tag_names?: string[];
   question_variants?: QuestionVariantCreate[];
 }
 
@@ -72,6 +73,7 @@ export interface FaqUpdate {
   answer?: string;
   is_active?: boolean;
   tag_ids?: number[];
+  new_tag_names?: string[];
 }
 
 // Pagination Types
@@ -100,6 +102,6 @@ export interface FaqFilters {
   page?: number;
   page_size?: number;
   search?: string;
-  tag_id?: number;
+  tag_ids?: number[];
   is_active?: boolean;
 }

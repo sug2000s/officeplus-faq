@@ -74,6 +74,7 @@ class FaqBase(BaseModel):
 class FaqCreate(FaqBase):
     """Schema for creating a FAQ."""
     tag_ids: Optional[List[int]] = []
+    new_tag_names: Optional[List[str]] = []
     question_variants: Optional[List[QuestionVariantCreate]] = []
 
 
@@ -83,6 +84,7 @@ class FaqUpdate(BaseModel):
     answer: Optional[str] = None
     is_active: Optional[bool] = None
     tag_ids: Optional[List[int]] = None
+    new_tag_names: Optional[List[str]] = None
 
 
 class FaqListResponse(BaseModel):

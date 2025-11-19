@@ -33,8 +33,13 @@ export const tagApi = {
 // FAQ API
 export const faqApi = {
     list: async (filters = {}) => {
+        const { tag_ids, ...restFilters } = filters;
+        const params = { ...restFilters };
+        if (tag_ids && tag_ids.length > 0) {
+            params.tag_ids = tag_ids.join(',');
+        }
         const { data } = await api.get('/faqs', {
-            params: filters,
+            params,
         });
         return data;
     },

@@ -316,7 +316,7 @@ async def list_faqs(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     search: Optional[str] = Query(None, description="Search in question and answer"),
-    tag_id: Optional[int] = Query(None, description="Filter by tag ID"),
+    tag_ids: Optional[str] = Query(None, description="Filter by tag IDs (comma-separated)"),
     is_active: Optional[bool] = Query(None, description="Filter by active status"),
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
@@ -341,9 +341,12 @@ async def list_faqs(
             )
         )
 
-    if tag_id:
-        query = query.join(FaqTag).where(FaqTag.tag_id == tag_id)
-        count_query = count_query.join(FaqTag).where(FaqTag.tag_id == tag_id)
+    if tag_ids:
+        # Parse comma-separated tag IDs
+        tag_id_list = [int(tid.strip()) for tid in tag_ids.split(',') if tid.strip().isdigit()]
+        if tag_id_list:
+            query = query.join(FaqTag).where(FaqTag.tag_id.in_(tag_id_list))
+            count_query = count_query.join(FaqTag).where(FaqTag.tag_id.in_(tag_id_list))
 
     if is_active is not None:
         query = query.where(FAQ.is_active == is_active)
@@ -398,7 +401,7 @@ async def create_faq(
     user_id = getattr(user_info, "emp_no", None) if user_info else None
 
     # Create FAQ
-    faq_dict = faq_data.model_dump(exclude={"tag_ids", "question_variants"})
+    faq_dict = faq_data.model_dump(exclude={"tag_ids", "new_tag_names", "question_variants"})
     faq_dict["created_by"] = user_id
     faq_dict["updated_by"] = user_id
 
@@ -406,13 +409,31 @@ async def create_faq(
     db.add(faq)
     await db.flush()
 
-    # Add tags
-    if faq_data.tag_ids:
-        for tag_id in faq_data.tag_ids:
-            tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
-            if tag_result.scalar_one_or_none():
-                faq_tag = FaqTag(faq_id=faq.id, tag_id=tag_id)
-                db.add(faq_tag)
+    # Create new tags and collect their IDs
+    new_tag_ids = []
+    if faq_data.new_tag_names:
+        for tag_name in faq_data.new_tag_names:
+            # Check if tag already exists
+            existing_result = await db.execute(
+                select(Tag).where(Tag.name == tag_name)
+            )
+            existing_tag = existing_result.scalar_one_or_none()
+            if existing_tag:
+                new_tag_ids.append(existing_tag.id)
+            else:
+                # Create new tag
+                new_tag = Tag(name=tag_name)
+                db.add(new_tag)
+                await db.flush()
+                new_tag_ids.append(new_tag.id)
+
+    # Add existing tags
+    all_tag_ids = list(faq_data.tag_ids or []) + new_tag_ids
+    for tag_id in all_tag_ids:
+        tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
+        if tag_result.scalar_one_or_none():
+            faq_tag = FaqTag(faq_id=faq.id, tag_id=tag_id)
+            db.add(faq_tag)
 
     # Add question variants
     if faq_data.question_variants:
@@ -454,20 +475,39 @@ async def update_faq(
     user_id = getattr(user_info, "emp_no", None) if user_info else None
 
     # Update basic fields
-    update_data = faq_data.model_dump(exclude_unset=True, exclude={"tag_ids"})
+    update_data = faq_data.model_dump(exclude_unset=True, exclude={"tag_ids", "new_tag_names"})
     for key, value in update_data.items():
         setattr(faq, key, value)
     faq.updated_by = user_id
 
     # Update tags if provided
-    if faq_data.tag_ids is not None:
+    if faq_data.tag_ids is not None or faq_data.new_tag_names:
+        # Create new tags and collect their IDs
+        new_tag_ids = []
+        if faq_data.new_tag_names:
+            for tag_name in faq_data.new_tag_names:
+                # Check if tag already exists
+                existing_result = await db.execute(
+                    select(Tag).where(Tag.name == tag_name)
+                )
+                existing_tag = existing_result.scalar_one_or_none()
+                if existing_tag:
+                    new_tag_ids.append(existing_tag.id)
+                else:
+                    # Create new tag
+                    new_tag = Tag(name=tag_name)
+                    db.add(new_tag)
+                    await db.flush()
+                    new_tag_ids.append(new_tag.id)
+
         # Remove existing tags
         await db.execute(
             text("DELETE FROM faq_tags WHERE faq_id = :faq_id"),
             {"faq_id": faq_id}
         )
-        # Add new tags
-        for tag_id in faq_data.tag_ids:
+        # Add all tags (existing + new)
+        all_tag_ids = list(faq_data.tag_ids or []) + new_tag_ids
+        for tag_id in all_tag_ids:
             tag_result = await db.execute(select(Tag).where(Tag.id == tag_id))
             if tag_result.scalar_one_or_none():
                 faq_tag = FaqTag(faq_id=faq.id, tag_id=tag_id)

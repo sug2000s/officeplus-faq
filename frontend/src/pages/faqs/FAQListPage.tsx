@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFaqs, useDeleteFaq } from '../../hooks/useFaqs';
 import { useTags } from '../../hooks/useTags';
-import { Button, SearchInput, Pagination, TagBadge, ConfirmModal } from '../../components/common';
+import { Button, SearchInput, Pagination, TagBadge, ConfirmModal, MultiSelect } from '../../components/common';
 import type { FaqListItem } from '../../types';
 import styles from './FAQListPage.module.css';
 
@@ -11,7 +11,7 @@ export const FAQListPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTagId, setSelectedTagId] = useState<number | undefined>();
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<boolean | undefined>(true);
   const [deleteTarget, setDeleteTarget] = useState<FaqListItem | null>(null);
 
@@ -19,7 +19,7 @@ export const FAQListPage: React.FC = () => {
     page,
     page_size: 20,
     search: searchQuery || undefined,
-    tag_id: selectedTagId,
+    tag_ids: selectedTagIds.length > 0 ? selectedTagIds : undefined,
     is_active: selectedStatus,
   });
 
@@ -59,23 +59,18 @@ export const FAQListPage: React.FC = () => {
           onChange={setSearch}
           onSearch={handleSearch}
         />
-        <select
-          className={styles.tagFilter}
-          value={selectedTagId || ''}
-          onChange={(e) => {
-            setSelectedTagId(e.target.value ? Number(e.target.value) : undefined);
+        <MultiSelect
+          options={tags || []}
+          selectedIds={selectedTagIds}
+          onChange={(ids) => {
+            setSelectedTagIds(ids);
             setPage(1);
           }}
-        >
-          <option value="">전체 태그</option>
-          {tags?.map((tag) => (
-            <option key={tag.id} value={tag.id}>
-              {tag.name}
-            </option>
-          ))}
-        </select>
-        <select
+          placeholder="전체 태그"
           className={styles.tagFilter}
+        />
+        <select
+          className={styles.statusFilter}
           value={selectedStatus === undefined ? '' : selectedStatus ? 'true' : 'false'}
           onChange={(e) => {
             const value = e.target.value;

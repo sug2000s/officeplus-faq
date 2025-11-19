@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFaq, useCreateFaq, useUpdateFaq } from '../../hooks/useFaqs';
 import { useTags } from '../../hooks/useTags';
-import { Button, TagBadge } from '../../components/common';
+import { Button, MultiSelect } from '../../components/common';
 import type { FaqCreate, FaqUpdate, QuestionVariantCreate } from '../../types';
 import styles from './FAQFormPage.module.css';
 
@@ -23,6 +23,8 @@ export const FAQFormPage: React.FC = () => {
   });
 
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+  const [newTagNames, setNewTagNames] = useState<string[]>([]);
+  const [tempTagCounter, setTempTagCounter] = useState(-1);
   const [variants, setVariants] = useState<QuestionVariantCreate[]>([]);
   const [newVariant, setNewVariant] = useState('');
 
@@ -53,12 +55,6 @@ export const FAQFormPage: React.FC = () => {
     }));
   };
 
-  const handleTagToggle = (tagId: number) => {
-    setSelectedTagIds((prev) =>
-      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId]
-    );
-  };
-
   const handleAddVariant = () => {
     if (newVariant.trim()) {
       setVariants((prev) => [
@@ -73,8 +69,44 @@ export const FAQFormPage: React.FC = () => {
     setVariants((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleCreateTag = (name: string) => {
+    // 이미 존재하는 태그인지 확인
+    const existingTag = tags?.find(
+      (t) => t.name.toLowerCase() === name.toLowerCase()
+    );
+    if (existingTag) {
+      if (!selectedTagIds.includes(existingTag.id)) {
+        setSelectedTagIds((prev) => [...prev, existingTag.id]);
+      }
+      return;
+    }
+
+    // 이미 추가된 임시 태그인지 확인
+    if (newTagNames.some((n) => n.toLowerCase() === name.toLowerCase())) {
+      return;
+    }
+
+    // 임시 태그 추가
+    setNewTagNames((prev) => [...prev, name]);
+    setSelectedTagIds((prev) => [...prev, tempTagCounter]);
+    setTempTagCounter((prev) => prev - 1);
+  };
+
+  // 임시 태그를 포함한 전체 옵션 목록
+  const allTagOptions = [
+    ...(tags || []),
+    ...newTagNames.map((name, index) => ({
+      id: -1 - index,
+      name,
+      color: null,
+    })),
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 기존 태그 ID만 필터링 (양수 ID)
+    const existingTagIds = selectedTagIds.filter((id) => id > 0);
 
     try {
       if (isEdit) {
@@ -82,13 +114,15 @@ export const FAQFormPage: React.FC = () => {
           question: formData.question,
           answer: formData.answer,
           is_active: formData.is_active,
-          tag_ids: selectedTagIds,
+          tag_ids: existingTagIds,
+          new_tag_names: newTagNames,
         };
         await updateFaq.mutateAsync({ id: Number(id), data: updateData });
       } else {
         const createData: FaqCreate = {
           ...formData,
-          tag_ids: selectedTagIds,
+          tag_ids: existingTagIds,
+          new_tag_names: newTagNames,
           question_variants: variants,
         };
         await createFaq.mutateAsync(createData);
@@ -140,18 +174,14 @@ export const FAQFormPage: React.FC = () => {
 
         <div className={styles.formGroup}>
           <label className={styles.label}>태그</label>
-          <div className={styles.tagList}>
-            {tags?.map((tag) => (
-              <label key={tag.id} className={styles.tagCheckbox}>
-                <input
-                  type="checkbox"
-                  checked={selectedTagIds.includes(tag.id)}
-                  onChange={() => handleTagToggle(tag.id)}
-                />
-                <TagBadge name={tag.name} color={tag.color} />
-              </label>
-            ))}
-          </div>
+          <MultiSelect
+            options={allTagOptions}
+            selectedIds={selectedTagIds}
+            onChange={setSelectedTagIds}
+            placeholder="태그를 선택하세요"
+            allowCreate
+            onCreateNew={handleCreateTag}
+          />
         </div>
 
         {!isEdit && (

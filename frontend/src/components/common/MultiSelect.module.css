@@ -1,0 +1,223 @@
+.multiSelect {
+  position: relative;
+  width: 100%;
+}
+
+.selectInput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--input-height);
+  padding: 0 12px;
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.selectInput:hover {
+  border-color: var(--color-primary);
+}
+
+.selectInput.open {
+  border-color: var(--color-primary);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.selectText {
+  font-family: var(--font-regular);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--color-text-secondary);
+  transition: transform 0.2s;
+}
+
+.open .arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-primary);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  max-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchInput {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.searchInput input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-regular);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  padding: 8px;
+  background: var(--color-bg-gray);
+  border-radius: var(--radius-sm);
+}
+
+.searchInput input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.searchIcon {
+  display: none;
+}
+
+.optionsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.option:hover {
+  background: var(--color-bg-gray);
+}
+
+.option.selected {
+  background: rgba(16, 130, 148, 0.08);
+}
+
+.checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: var(--spacing-sm);
+}
+
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  background: var(--color-bg-white);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+}
+
+.checkbox input:checked ~ .checkmark {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.checkbox input:checked ~ .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.optionText {
+  font-family: var(--font-regular);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.noData {
+  padding: var(--spacing-lg);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.selectedTags {
+  padding: var(--spacing-sm) 12px;
+  border-top: 1px solid var(--color-border-light);
+  background: var(--color-bg-light);
+}
+
+.selectedTagsLabel {
+  font-family: var(--font-medium);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.selectedTagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.selectedTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: var(--color-primary);
+  color: white;
+  font-family: var(--font-regular);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-sm);
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  padding: 0;
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.removeBtn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

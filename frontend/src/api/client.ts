@@ -55,8 +55,15 @@ export const tagApi = {
 // FAQ API
 export const faqApi = {
   list: async (filters: FaqFilters = {}): Promise<PaginatedResponse<FaqListItem>> => {
+    const { tag_ids, ...restFilters } = filters;
+    const params: Record<string, unknown> = { ...restFilters };
+
+    if (tag_ids && tag_ids.length > 0) {
+      params.tag_ids = tag_ids.join(',');
+    }
+
     const { data } = await api.get<PaginatedResponse<FaqListItem>>('/faqs', {
-      params: filters,
+      params,
     });
     return data;
   },
