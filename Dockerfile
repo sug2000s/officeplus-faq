@@ -1,7 +1,7 @@
 # OfficePlus FAQ System Dockerfile
 
 # Stage 1: Frontend build
-FROM node:20-alpine AS frontend-builder
+FROM node:22-alpine AS frontend-builder
 WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
@@ -9,7 +9,7 @@ COPY frontend ./
 RUN npm run build
 
 # Stage 2: Backend
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
