@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.models.database import Base, Tag, FaqTag, FAQ, QuestionVariant
 
 # Database configuration
-DATABASE_URL = "postgresql://ep_user:ep2005!@localhost:3009/ep_ax_agent"
+DATABASE_URL = "postgresql://ep_user:ep2005!@localhost:3009/ep_ax_faq"
 
 # CSV file path
 CSV_FILE_PATH = "docs/docs.csv"

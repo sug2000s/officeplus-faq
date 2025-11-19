@@ -2,7 +2,7 @@
 """Reset database - drop all tables and recreate."""
 from sqlalchemy import create_engine, text
 
-DATABASE_URL = "postgresql://ep_user:ep2005!@localhost:3009/ep_ax_agent"
+DATABASE_URL = "postgresql://ep_user:ep2005!@localhost:3009/ep_ax_faq"
 
 def reset_database():
     """Drop all tables and reset alembic version."""
@@ -12,10 +12,8 @@ def reset_database():
         # Drop all tables in correct order (respecting foreign keys)
         tables_to_drop = [
             'faq_tags',
-            'intent_tags',  # Keep for backward compatibility
             'question_variants',
             'faqs',
-            'intents',  # Keep for backward compatibility
             'tags',
             'admin_users',
             'alembic_version'

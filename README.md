@@ -69,8 +69,8 @@ cd backend
 # 가상환경 활성화
 source venv/bin/activate
 
-# 데이터베이스 초기화
-PYTHONPATH=$(pwd) python app/db/init_db.py
+# 데이터베이스 스키마 생성
+PYTHONPATH=$(pwd) alembic upgrade head
 
 # FAQ 데이터 임포트 (선택사항)
 PYTHONPATH=$(pwd) python import_csv.py
@@ -259,8 +259,8 @@ Vite 설정에서 `/api` 요청은 `http://localhost:8000`으로 프록시됩니
 cd backend
 source venv/bin/activate
 
-# 마이그레이션 적용
-alembic upgrade head
+# 마이그레이션 적용 (테이블 생성)
+PYTHONPATH=$(pwd) alembic upgrade head
 
 # 새 마이그레이션 생성
 alembic revision --autogenerate -m "description"
@@ -268,12 +268,29 @@ alembic revision --autogenerate -m "description"
 # 마이그레이션 히스토리 확인
 alembic history
 
-# 데이터베이스 리셋
-PYTHONPATH=$(pwd) python reset_db.py
-
 # CSV에서 FAQ 데이터 임포트
 PYTHONPATH=$(pwd) python import_csv.py
 ```
+
+### 데이터베이스 완전 초기화
+
+데이터를 완전히 리셋하고 다시 임포트하려면 다음 순서로 실행하세요:
+
+```bash
+cd backend
+source venv/bin/activate
+
+# 1. 테이블 삭제
+PYTHONPATH=$(pwd) python reset_db.py
+
+# 2. 스키마 재생성 (필수! reset_db 후 반드시 실행)
+PYTHONPATH=$(pwd) alembic upgrade head
+
+# 3. 데이터 임포트
+PYTHONPATH=$(pwd) python import_csv.py
+```
+
+> ⚠️ **주의**: `reset_db.py`는 테이블만 삭제합니다. 반드시 `alembic upgrade head`로 스키마를 재생성한 후 `import_csv.py`를 실행해야 합니다.
 
 ## 라이선스
 
