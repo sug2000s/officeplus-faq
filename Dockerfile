@@ -38,6 +38,10 @@ COPY backend /app/backend
 # Copy frontend build
 COPY --from=frontend-builder /frontend/dist /app/frontend/dist
 
+ENV ENVIRONMENT=local
+ENV APP_ENV=local
+ENV TZ=Asia/Seoul
+
 EXPOSE 8000
 
 WORKDIR /app/backend

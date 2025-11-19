@@ -196,6 +196,7 @@ docker build -t officeplus-faq .
 
 # 컨테이너 실행
 docker run --env-file backend/.env -p 8000:8000 officeplus-faq
+docker run -p 8000:8000 officeplus-faq
 ```
 
 ## 환경 변수

@@ -7,10 +7,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.config import settings  # 먼저 임포트하여 .env 파일 로드
 from app.core.redis import RedisSessionManager
 from app.utils.middleware import SessionMiddleware
 from app.api import router as service_router
-from app.config import settings
 from app.db.session import check_database_connection
 
 logger = logging.getLogger(__name__)
